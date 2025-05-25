@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+   <link rel="stylesheet" href="https://bit.ly/fontiton5" type="text/css" charset="utf-8" />
+    <script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+    <title>💈จองคิวร้านตัดผม</title>
+    <style>
+        body {
+            font-family: line_seed_sans_th;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            margin: 0;
+            padding: 0;
+            color: #333;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 400px;
+            margin: 20px auto;
+            background: #fff;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        header h1 {
+            text-align: center;
+            font-size: 1.5em;
+            margin: 0 0 20px 0;
+        }
+
+        .calendar, .available-slots, .specialists {
+            margin-bottom: 20px;
+        }
+
+        .calendar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: linear-gradient(to right, #6a11cb 0%, #2575fc 100%);
+            padding: 10px 15px;
+            border-radius: 10px;
+            color: white;
+        }
+
+        .nav-btn {
+            background: rgba(255,255,255,0.2);
+            border: none;
+            color: white;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+
+        .nav-btn:hover {
+            background: rgba(255,255,255,0.4);
+        }
+
+        .days {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 5px;
+            text-align: center;
+        }
+
+        .days div {
+            padding: 10px;
+            border-radius: 8px;
+            cursor: pointer;
+            background-color: #f8f9fa;
+            transition: all 0.3s ease;
+            border: 1px solid #e9ecef;
+        }
+
+        .days div:hover {
+            background-color: #e9ecef;
+        }
+
+        .days div.selected {
+            background: linear-gradient(to right, #6a11cb 0%, #2575fc 100%);
+            color: white;
+            transform: scale(1.05);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        .slots button, .profile {
+            padding: 10px;
+            border-radius: 8px;
+            cursor: pointer;
+            background-color: #f8f9fa;
+            border: 1px solid #e9ecef;
+            transition: all 0.3s ease;
+        }
+
+        .slots button {
+            flex: 1 0 calc(33% - 10px);
+            min-width: 0;
+        }
+
+        .slots button:hover, .profile:hover {
+            background-color: #e9ecef;
+        }
+
+        .slots button.selected, .profile.selected {
+            background: linear-gradient(to right, #6a11cb 0%, #2575fc 100%);
+            color: white;
+            transform: scale(1.05);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            border-color: transparent;
+        }
+
+        .book-btn {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(to right, #6a11cb 0%, #2575fc 100%);
+            color: #fff;
+            border: none;
+            border-radius: 10px;
+            font-size: 1em;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .book-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 7px 14px rgba(0,0,0,0.1);
+        }
+
+        .profile {
+            text-align: center;
+            flex: 1 0 calc(25% - 10px);
+            min-width: 0;
+        }
+
+        .profile img {
+            border-radius: 50%;
+            border: 3px solid #e9ecef;
+            transition: all 0.3s ease;
+        }
+
+        .profile.selected img {
+            border-color: #6a11cb;
+        }
+
+        .slots, .profiles {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+        <center>  
+            <div class="flex items-center">
+                <div class="relative">
+                    <img class="h-16 w-16 rounded-full object-cover" src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExcHphZG1za3YyZmd0aGQ5and3cW1ibGRtMzlseWN2YTl6YzloNTBwOCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/VIfKkSJDf4yroE6QcR/giphy.gif" alt="Avatar" id="pic">
+                    <div class="absolute inset-0 rounded-full shadow-inner"></div>
+                </div>
+                <div class="ml-4">
+                    <h2 class="font-bold text-gray-800 text-lg" id="displayname">..</h2>
+                    <p class="text-gray-600">จองคิวตัดผม</p>
+                </div>
+            </div>
+        </center>
+        <h1 class="text-3xl font-extrabold tracking-tight text-slate-900 sm:text-4xl mt-5">BOOK APPOINTMENT</h1>
+        </header>
+        <div class="calendar mt-5">
+            <button class="nav-btn" id="prev-month">←</button>
+            <span id="month-label" class="font-bold"></span>
+            <button class="nav-btn" id="next-month">→</button>
+        </div>
+        <div class="days"></div>
+        <div class="available-slots">
+            <h2 class="text-xl font-extrabold tracking-tight text-slate-900 sm:text-2xl mt-5">เลือกช่วงเวลา</h2>
+            <div class="slots">
+                <button>10:00 น.</button>
+                <button>11:00 น.</button>
+                <button>13:00 น.</button>
+                <button>14:00 น.</button>
+                <button>15:00 น.</button>
+            </div>
+        </div>
+        <div class="specialists">
+            <h2 class="text-xl font-extrabold tracking-tight text-slate-900 sm:text-2xl">เลือกช่างตัดผมประจำ</h2>
+            <div class="profiles">
+                <div class="profile" data-name="ช่างโบว์"> 
+                    <center>
+                        <img src="https://randomuser.me/api/portraits/women/87.jpg" class="w-12 h-12 items-center justify-center" alt="profile">
+                        <p>ช่างโบว์</p>
+                    </center>
+                </div>
+                <div class="profile" data-name="ช่างนุ่น">
+                    <center>
+                        <img src="https://randomuser.me/api/portraits/women/88.jpg" class="w-12 h-12 items-center justify-center" alt="profile">
+                        <p>ช่างนุ่น</p>
+                    </center>
+                </div>
+                <div class="profile" data-name="ช่างเจน">
+                    <center>
+                        <img src="https://randomuser.me/api/portraits/women/90.jpg" class="w-12 h-12 items-center justify-center" alt="profile">
+                        <p>ช่างเจน</p>
+                    </center>
+                </div>
+                <div class="profile" data-name="ช่างมัน">
+                    <center>
+                        <img src="https://randomuser.me/api/portraits/women/89.jpg" class="w-12 h-12 items-center justify-center" alt="profile">
+                        <p>ช่างมัน</p>
+                    </center>
+                </div>
+            </div>
+        </div>
+        <button class="book-btn" id="book-appointment">BOOK APPOINTMENT</button>
+    </div>
+    <div id="loading-overlay" class="fixed inset-0 bg-gray-500 bg-opacity-75 z-50 flex items-center justify-center hidden">
+      <img src="https://i.giphy.com/media/v1.Y2lkPTc5MGI3NjExdTh0NmcxMGhhcndvZHV6OHplY2dxb21yc3Vud2EyY3c4bmpzNDA3dSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/jAYUbVXgESSti/giphy.gif" alt="Loading..." class="w-screen h-auto">
+    </div>
+
+    <script>
+       window.onload = function() {
+        const defaultLiffId = "2006134287-5qjXvnkr";
+        initializeLiff(defaultLiffId);
+      };
+
+      function initializeLiff(defaultLiffId) {
+        liff.init({
+          liffId: defaultLiffId,
+          withLoginOnExternalBrowser: true,
+        })
+        liff.ready.then(() => {
+          if (!liff.isInClient() && !liff.isLoggedIn()) {
+            window.alert("กรุณาเข้าสู่ระบบบัญชี LINE ของคุณ");
+            liff.login({
+              redirectUri: location.href
+            });
+          }
+          liff.getFriendship().then((data) => {
+            if (!data.friendFlag) {
+              Swal.fire('เดี๋ยวก่อน!', 'คุณยังไม่ได้เป็นเพื่อนกับเรา', 'error').then(() => {
+                window.location = 'https://line.me/R/ti/p/@085vyswo'
+              })
+            }
+          });
+          liff.getProfile().then((profile) => {
+            document.getElementById("pic").src = profile.pictureUrl
+            document.getElementById("displayname").innerHTML = profile.displayName
+            
+          }).catch((err) => {
+            console.log("error", err);
+          });
+        });
+        
+      }
+        document.addEventListener("DOMContentLoaded", () => {
+            const daysContainer = document.querySelector(".days");
+            const monthLabel = document.getElementById("month-label");
+            const slots = document.querySelectorAll(".slots button");
+            const profiles = document.querySelectorAll(".profile");
+            const bookButton = document.getElementById("book-appointment");
+
+            let selectedDate = null;
+            let selectedSlot = null;
+            let selectedSpecialist = null;
+
+            let currentMonth = new Date();
+
+            // อัปเดตวันที่ในปฏิทิน
+            function updateCalendar() {
+                daysContainer.innerHTML = "";
+                const year = currentMonth.getFullYear();
+                const month = currentMonth.getMonth();
+                const firstDay = new Date(year, month, 1);
+                const lastDay = new Date(year, month + 1, 0);
+
+                monthLabel.textContent = currentMonth.toLocaleDateString("th-TH", { month: "long", year: "numeric" });
+
+                for (let day = firstDay.getDate(); day <= lastDay.getDate(); day++) {
+                    const date = new Date(year, month, day);
+                    if (date < new Date()) continue; 
+
+                    const dayDiv = document.createElement("div");
+                    dayDiv.textContent = day;
+                    dayDiv.dataset.date = date.toISOString().split("T")[0];
+
+                    dayDiv.addEventListener("click", () => {
+                        document.querySelector(".days .selected")?.classList.remove("selected");
+                        dayDiv.classList.add("selected");
+                        selectedDate = dayDiv.dataset.date;
+                    });
+
+                     daysContainer.appendChild(dayDiv);
+                }
+            }
+
+            
+            slots.forEach(slot => {
+                slot.addEventListener("click", () => {
+                    document.querySelector(".slots button.selected")?.classList.remove("selected");
+                    slot.classList.add("selected");
+                    selectedSlot = slot.textContent;
+                });
+            });
+
+            
+            profiles.forEach(profile => {
+                profile.addEventListener("click", () => {
+                    document.querySelector(".profile.selected")?.classList.remove("selected");
+                    profile.classList.add("selected");
+                    selectedSpecialist = profile.dataset.name;
+                });
+            });
+
+           
+            document.getElementById("prev-month").addEventListener("click", () => {
+                currentMonth.setMonth(currentMonth.getMonth() - 1);
+                updateCalendar();
+            });
+
+            document.getElementById("next-month").addEventListener("click", () => {
+                currentMonth.setMonth(currentMonth.getMonth() + 1);
+                updateCalendar();
+            });
+
+           
+            bookButton.addEventListener("click", () => {
+                if (!selectedDate || !selectedSlot || !selectedSpecialist) {
+                    alert("กรุณาเลือกวันที่ เวลา และช่างตัดผม");
+                    return;
+                }
+
+                const userId = "" + liff.getDecodedIDToken().sub;
+              const name = "" + liff.getDecodedIDToken().name;
+              const pic = "" + liff.getDecodedIDToken().picture;
+                sendToGoogleSheet(selectedDate, userId, selectedSlot, selectedSpecialist,name,pic);
+            });
+
+            
+           function sendToGoogleSheet(selectedDate, userId, selectedSlot, selectedSpecialist,name , pic) {
+            $('#loading-overlay').removeClass('hidden');
+        $.post('https://script.google.com/macros/s/AKfycbypfsgL3J6A2TYyW5jEaI9GppD_GztamdAdJgOKaxoEuhOJq5ppwF30zfbnSwtkG-ht/exec', {
+          selectedDate: selectedDate,
+          userId: userId,
+          selectedSlot: selectedSlot,
+          selectedSpecialist: selectedSpecialist,
+          name: name,
+          pic: pic
+        }).done(function(response) {
+        $('#loading-overlay').addClass('hidden');
+          if (response.statusCode === 200) {
+            const flexMessage = JSON.parse(response.body);
+            const swalert = response.alert;
+            const title = response.title;
+            const subtitle = response.subtitle
+            liff.sendMessages([flexMessage]).then(function(res) {
+              if (res) {
+                Swal.fire(title, subtitle, swalert).then(()=>{
+                  liff.closeWindow();
+                })
+              } else {
+                console.log("TargetPicker was closed!");
+              }
+            }).catch(function(error) {
+              console.log("something wrong happen");
+            });
+          }
+        }).fail(function(error) {
+          Swal.fire('ข้อผิดพลาด', 'เกิดข้อผิดพลาดข้อมูลไม่ถูกต้อง', 'error');
+          $('#loading-overlay').addClass('hidden');
+        });
+      }
+
+            
+            updateCalendar();
+        });
+      
+      
+    </script>
+</body>
+</html>
