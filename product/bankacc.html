@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>บัญชีธนาคารสำหรับรับเงิน</title>
+    <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        /* รีเซ็ต CSS พื้นฐาน */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Prompt', sans-serif;
+            background-color: #111827;
+            padding: 20px;
+            color: #f3f4f6;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            background: #1f2937;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.3);
+            border: 1px solid #374151;
+        }
+        
+        h1 {
+            color: #f3f4f6;
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 28px;
+        }
+        
+        .account-box {
+            border: 1px solid #374151;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            background-color: #1f2937;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+        
+        .account-box:hover {
+            box-shadow: 0 3px 10px rgba(0,0,0,0.3);
+            border-color: #10b981;
+        }
+        
+        .bank-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .bank-logo {
+            width: 50px;
+            height: 50px;
+            object-fit: contain;
+            margin-right: 15px;
+            border-radius: 50%;
+            background: #1f2937;
+            padding: 5px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            border: 1px solid #374151;
+        }
+        
+        .bank-name {
+            color: #34d399;
+            font-size: 20px;
+            flex-grow: 1;
+        }
+        
+        .account-info {
+            margin: 15px 0;
+        }
+        
+        .account-number {
+            font-weight: bold;
+            font-size: 20px;
+            color: #fca5a5;
+            margin-right: 10px;
+        }
+        
+        .account-name {
+            font-size: 16px;
+            color: #d1d5db;
+            display: block;
+            margin-top: 5px;
+        }
+        
+        .copy-btn {
+            background-color: #10b981;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-family: 'Prompt', sans-serif;
+            font-size: 14px;
+            transition: background 0.3s;
+            display: block;
+            margin-top: 10px;
+        }
+        
+        .copy-btn:hover {
+            background-color: #059669;
+        }
+        
+        .note {
+            font-size: 14px;
+            color: #9ca3af;
+            margin-top: 30px;
+            padding: 15px;
+            background-color: #1f2937;
+            border-radius: 5px;
+            border-left: 4px solid #10b981;
+        }
+        
+        .line-link {
+            color: #34d399;
+            text-decoration: none;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+        
+        .line-link:hover {
+            color: #10b981;
+            text-decoration: underline;
+        }
+        
+        @media (max-width: 600px) {
+            .container {
+                padding: 20px;
+            }
+            
+            .bank-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .bank-logo {
+                margin-bottom: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>บัญชีธนาคารสำหรับรับเงิน</h1>
+        
+        <!-- บัญชีธนาคารที่ 1 -->
+        <div class="account-box">
+            <div class="bank-header">
+                <img src="https://i.pinimg.com/736x/ed/80/c6/ed80c67f6f6b484e3a09c85801a5e3c2.jpg" alt="ธนาคารกรุงศรี" class="bank-logo">
+                <h3 class="bank-name">ธนาคารกรุงศรี</h3>
+            </div>
+            <div class="account-info">
+                <span class="account-number">045-1-37130-9</span>
+                <span class="account-name">ชื่อบัญชี: พร้อมพรรณ บุนนาค</span>
+                <button class="copy-btn" onclick="copyAccountNumber('045-1-37130-9', 'กรุงศรี')">
+                    คัดลอกเลขบัญชี
+                </button>
+            </div>
+        </div>
+        
+        <!-- บัญชีธนาคารที่ 2 -->
+        <div class="account-box">
+            <div class="bank-header">
+                <img src="https://www.bot.or.th/content/dam/bot/icons/icon-thaiqr.png" alt="promptpay" class="bank-logo">
+                <h3 class="bank-name">promptpay</h3>
+            </div>
+            <div class="account-info">
+                <span class="account-number">0909179965</span>
+                <span class="account-name">ชื่อบัญชี: พร้อมพรรณ บุนนาค</span>
+                <button class="copy-btn" onclick="copyAccountNumber('0909179965', 'promptpay')">
+                    คัดลอกเลขบัญชี
+                </button>
+            </div>
+        </div>
+        
+        <!-- หมายเหตุ -->
+        <div class="note">
+            <strong>หมายเหตุ:</strong> หลังจากโอนเงินแล้ว กรุณาส่งหลักฐานการโอนมาที่ 
+            <a href="https://lin.ee/MQqnvKj" class="line-link" target="_blank">ไลน์ OA @preciousmetalspro</a>
+        </div>
+    </div>
+
+    <script>
+        // ฟังก์ชันสำหรับคัดลอกเลขบัญชี
+        async function copyAccountNumber(accountNumber, bankName) {
+            try {
+                // วิธีใหม่ใช้ Clipboard API (ทำงานในเบราว์เซอร์สมัยใหม่)
+                await navigator.clipboard.writeText(accountNumber);
+                showAlert(`คัดลอกเลขบัญชี ${bankName} <br><strong>${accountNumber}</strong> เรียบร้อยแล้ว`);
+            } catch (err) {
+                // ถ้าใช้ Clipboard API ไม่ได้ ใช้วิธีเก่าแทน
+                console.log('ใช้ Clipboard API ไม่ได้ เปลี่ยนไปใช้วิธีเก่า');
+                useOldCopyMethod(accountNumber, bankName);
+            }
+        }
+        
+        // วิธีเก่าสำหรับเบราว์เซอร์ที่เก่ากว่า
+        function useOldCopyMethod(accountNumber, bankName) {
+            const tempInput = document.createElement('input');
+            tempInput.value = accountNumber;
+            document.body.appendChild(tempInput);
+            tempInput.select();
+            document.execCommand('copy');
+            document.body.removeChild(tempInput);
+            showAlert(`คัดลอกเลขบัญชี ${bankName} <br><strong>${accountNumber}</strong> เรียบร้อยแล้ว`);
+        }
+        
+        // แสดงข้อความแจ้งเตือน
+        function showAlert(message) {
+            const alertDiv = document.createElement('div');
+            alertDiv.style.position = 'fixed';
+            alertDiv.style.bottom = '20px';
+            alertDiv.style.right = '20px';
+            alertDiv.style.backgroundColor = '#065f46';
+            alertDiv.style.color = 'white';
+            alertDiv.style.padding = '15px';
+            alertDiv.style.borderRadius = '5px';
+            alertDiv.style.boxShadow = '0 3px 10px rgba(0,0,0,0.3)';
+            alertDiv.style.zIndex = '1000';
+            alertDiv.style.maxWidth = '300px';
+            alertDiv.innerHTML = message;
+            
+            document.body.appendChild(alertDiv);
+            
+            // หายไปหลังจาก 3 วินาที
+            setTimeout(() => {
+                alertDiv.style.opacity = '0';
+                setTimeout(() => {
+                    document.body.removeChild(alertDiv);
+                }, 300);
+            }, 3000);
+        }
+    </script>
+</body>
+</html>
