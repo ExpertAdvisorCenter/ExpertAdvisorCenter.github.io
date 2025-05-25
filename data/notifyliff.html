@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>♥️ Expert Advisor Center</title>
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="/notifyliffscriptlandom.js" defer></script>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
+    <link rel="stylesheet" href="https://bit.ly/fontiton5" type="text/css" charset="utf-8" />
+    <style type="text/css"> 
+        :root {
+            --primary-bg: #000000;
+            --primary-text: #FFFFFF;
+            --accent-green: #00FF00;
+            --accent-yellow: #FFFF00;
+        }
+        
+        html, body { 
+            font-family: 'line_seed_sans_th';
+            background-color: var(--primary-bg);
+            color: var(--primary-text);
+        }
+        
+        .ping-it>span:hover {
+            animation: ring-my-bell 300ms linear infinite;
+        }
+        
+        @media (prefers-reduced-motion: no-preference) {
+            .num-alerts {
+                animation: ping-it 800ms cubic-bezier(0, 0, 0.2, 1) infinite;
+            }
+            #btn-toggle::before {
+                animation: rotate 45s linear infinite;
+            }
+        }
+        
+        @keyframes ping-it {
+            75% { transform: scale(1.5); }
+            100% { transform: scale(1.5); opacity: 0; }
+        }
+        
+        @keyframes ring-my-bell {
+            0% { transform: rotate(0deg); }
+            25% { transform: rotate(15deg); }
+            50% { transform: rotate(-15deg); }
+            75% { transform: rotate(10deg); }
+            100% { transform: rotate(0deg); }
+        }
+        
+        .notification-card {
+            background: rgba(30, 30, 30, 0.9);
+            border: 1px solid rgba(0, 255, 0, 0.2);
+            transition: all 0.3s ease;
+        }
+        
+        .notification-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 255, 0, 0.2);
+        }
+        
+        .gradient-text {
+            background: linear-gradient(90deg, var(--accent-green), var(--accent-yellow));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+    </style>
+    <script src="https://cdn.tailwindcss.com"></script> 
+</head>
+
+<body class="bg-black flex flex-col items-center min-h-screen p-8">
+    <h1 class="text-2xl md:text-3xl pl-2 my-2 border-l-4 font-bold border-red-400 text-white gradient-text">
+        ข่าวสารและข้อมูลแจ้งเตือน
+    </h1>
+   
+    <br /><br />
+      
+    <input type="checkbox" id="alerts" class="sr-only peer/alerts" />
+
+    <label id="btn-toggle" for="alerts" data-alerts="1" class="group ping-it cursor-pointer w-24 h-24 bg-green-600 text-white grid place-content-center rounded-full block mx-auto relative shadow-lg 
+        before:absolute before:-inset-0 before:bg-blue-950 before:rounded-full before:-z-10 before:transition-all before:duration-1000
+        after:absolute after:inset-0 after:bg-blue-950 after:rounded-full after:-z-10 after:transition-all after:duration-1000
+        motion-reduce:after:animate-none
+        peer-checked/theme:before:-inset-[4000%]
+        peer-checked/theme:after:bg-slate-300
+        peer-checked/theme:text-blue-950
+        peer-checked/alerts:scale-50
+        peer-checked/alerts:translate-x-28
+        sm:peer-checked/alerts:translate-x-60
+        peer-checked/alerts:delay-300
+        peer-focus:before:-inset-[50px]
+        peer-focus:before:opacity-0
+        peer-focus:after:animate-none">            
+        <span class="material-symbols-outlined text-6xl block">notifications</span>
+        <span id="num-alerts" class="num-alerts absolute top-0 right-0 bg-red-600 text-white text-sm w-6 h-6 rounded-full grid place-content-center">1</span>
+    </label>
+    
+    <br />
+    <p class="text-gray-300">กดที่กระดิ่งเพื่อดูรายละเอียดที่สนใจ</p>
+    <p class="text-yellow-400">เรียกดูข้อมูลคลิกที่ icon <span class="material-symbols-outlined text-yellow-400">event</span></p>
+    
+    <br />
+
+    <main class="relative w-72 sm:w-[540px] grid 
+        [grid-template-rows:0fr] 
+        peer-checked/theme:[&>section>div]:bg-slate-300
+        peer-checked/alerts:[grid-template-rows:1fr] 
+        peer-checked/alerts:delay-1000">
+        <section class="overflow-hidden">
+            <div id="list-alerts" class="bg-gray-800 text-white rounded-2xl min-h-10 overflow-hidden p-4">  
+                <!-- แสดงข้อมูลแจ้งเตือน -->  
+            </div>
+        </section>
+    </main>
+
+    <template id="tpl-alert">
+        <article class="flex items-center justify-between notification-card rounded-lg p-4 mb-3 hover:bg-gray-700 transition duration-300">
+            <div class="flex items-center">
+                <img data-img src="https://www.pagesection.com/images/sample-image-256px.png" class="w-12 h-12 rounded-full object-cover mr-4 border-2 border-green-500" alt="profile">
+                <div>
+                    <p data-name class="font-semibold text-white text-base"></p>
+                    <p data-desc class="text-gray-300 text-sm"></p>
+                </div>
+            </div>
+            <button type="button" class="text-gray-400 hover:text-yellow-400 focus:outline-none">
+                <span class="material-symbols-outlined text-yellow-400">event</span>
+            </button>
+        </article>
+    </template>
+    
+    <br /><br />
+   
+    <a href="https://liff.line.me/2006134287-Q6NyW6AR" class="text-green-400 hover:text-green-300 font-bold text-xl mb-2 transition">🏠 ย้อนกลับสู่หน้า Home 👆</a>
+    <a href="https://liff.line.me/2006134287-Q6NyW6AR" class="text-green-400 hover:text-green-300 font-bold transition">Expert Advisor Center</a>
+   
+    <aside class="fixed z-50 flex items-center justify-center px-5 py-3 text-white bg-gray-900 rounded-lg bottom-4 right-4 border border-green-500/20">
+        <img id="pictureUrl" src="https://www.pagesection.com/images/sample-image-256px.png" class="w-10 h-10 rounded-full object-cover mr-4 border border-green-500" alt="profile">
+        <div class="text-sm font-medium">
+            สวัสดีคุณ <span id="displayName" class="text-green-400"></span><br />
+            <a href="https://secure.cxmdirect.com/links/go/135079" class="text-yellow-400 hover:text-yellow-300 font-bold">สมัครสมาชิกเพื่อรับสิทธิ์พิเศษและใช้ Free EA เทรด space ต่ำ !! คลิก</a>
+        </div>
+        
+        <button onClick="return this.parentNode.remove()" class="p-1 ml-3 rounded bg-white/20 hover:bg-white/10">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 20 20" fill="currentColor">
+                <path fillRule="evenodd"
+                    d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                    clipRule="evenodd" />
+            </svg>
+        </button>
+    </aside>
+   
+    <script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
+    <script>
+        window.onload = function() {
+            const defaultLiffId = "2006134287-G6grKY53";
+            initializeLiff(defaultLiffId);
+            
+            // เพิ่ม Event Listener สำหรับการคลิกที่กระดิ่ง
+            document.getElementById('alerts').addEventListener('change', function() {
+                // ระบบจะทำงานผ่านไฟล์ notifyliffscriptlandom.js เท่านั้น
+                // ไม่มีการแสดงข้อมูลตัวอย่างที่นี่
+            });
+        };
+
+        function initializeLiff(defaultLiffId) {
+            liff.init({
+                liffId: defaultLiffId,
+                withLoginOnExternalBrowser: true,
+            })
+           
+            liff.ready.then(() => {
+                liff.getProfile()
+                    .then((profile) => {
+                        const name = profile.displayName;
+                        const picture = profile.pictureUrl;
+                        
+                        document.getElementById("pictureUrl").src = picture;
+                        document.getElementById("displayName").textContent = name;
+                    })
+                    .catch((err) => {
+                        console.log("error", err);
+                    });
+            });
+        }
+        
+        function sendText(text) {
+            if (!liff.isInClient()) {
+                shareTargetPicker(text);
+            } else {
+                sendflex(text);
+            }
+        }
+        
+        function sendflex(text) {
+            liff.sendMessages(text).then(function() {
+                Swal.fire({
+                    position: 'top-end',
+                    icon: 'success',
+                    title: 'ส่งเข้าแชทเรียบร้อย',
+                    showConfirmButton: false,
+                    timer: 1500
+                });
+            });
+        }
+        
+        function shareTargetPicker(text) {
+            liff.shareTargetPicker(text).then(function(res) {
+                if (res) {
+                    Swal.fire({
+                        position: 'top-end',
+                        icon: 'success',
+                        title: 'ส่งเข้าแชทเรียบร้อย',
+                        showConfirmButton: false,
+                        timer: 1500
+                    });
+                } else {
+                    console.log("TargetPicker was closed!");
+                }
+            }).catch(function(error) {
+                window.alert("Failed to send message " + error);
+            });
+        }
+    </script>
+</body>
+</html>
