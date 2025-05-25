@@ -1,0 +1,492 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>♥️ Expert Advisor Center</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+  </head>
+  <body>
+    
+     <div class="alert alert-primary" role="alert">
+      
+  กรุณารอสักครู่ <a href="https://lin.ee/6w5wWV9X" class="alert-link">ติดต่อสอบถาม</a>. Expert Advisor Center
+      
+</div>
+    
+<div class="d-flex justify-content-center">
+ 
+    <img src="https://lh3.googleusercontent.com/d/1OtwMK58vYD9cQMw10cPePh0O_dzvFhGI" class="card-img-top" alt="Loading">
+    
+</div>
+    
+<script>
+    window.onload = function(e){
+      liff.init({liffId: "2006134287-AvV8gYlJ"}, function(){
+        if(liff.isLoggedIn()){
+        var params = (new URL(document.location)).searchParams;
+          var key = params.get("metalspro")
+          
+          if(key == "web"){
+            var x = params.get("url")
+            liff.openWindow({
+  url: "" + x,
+  external: false,
+});
+          }
+          
+          if(key == "profile"){
+            liff.getProfile().then((profile) => {
+    const userID = profile.userId;          
+    const name = profile.displayName;
+    const pic = profile.pictureUrl;
+    const stat = profile.statusMessage
+              
+              var msg =[{
+  "type": "flex",
+  "altText": "Flex Message",
+  "contents": {
+    "type": "bubble",
+    "body": {
+      "type": "box",
+      "layout": "vertical",
+      "contents": [
+        {
+          "type": "box",
+          "layout": "horizontal",
+          "contents": [
+            {
+              "type": "box",
+              "layout": "vertical",
+              "contents": [
+                {
+                  "type": "image",
+                  "url": "" + pic,
+                  "aspectMode": "cover",
+                  "size": "full"
+                }
+              ],
+              "cornerRadius": "100px",
+              "width": "72px",
+              "height": "72px"
+            },
+            {
+              "type": "box",
+              "layout": "vertical",
+              "contents": [
+                {
+                  "type": "text",
+                  "contents": [
+                    {
+                      "type": "span",
+                      "text": "" + liff.getDecodedIDToken().name,
+                      "weight": "bold",
+                      "color": "#000000"
+                    },
+                    {
+                      "type": "span",
+                      "text": "     "
+                    },
+                    {
+                      "type": "span",
+                      "text": ""+ stat
+                    }
+                  ],
+                  "size": "sm",
+                  "wrap": true
+                },
+                {
+                  "type": "box",
+                  "layout": "vertical",
+                  "contents": [
+                    {
+                      "type": "text",
+                      "text": "userId: " + userID,
+                      "size": "sm",
+                      "wrap": true
+                    }
+                  ],
+                  "spacing": "sm",
+                  "margin": "md"
+                },
+                {
+                  "type": "box",
+                  "layout": "vertical",
+                  "contents": [
+                    {
+                      "type": "text",
+                      "text": "OS: " + liff.getOS(),
+                      "size": "sm",
+                      "wrap": true
+                    }
+                  ],
+                  "spacing": "sm",
+                  "margin": "md"
+                },
+                {
+                  "type": "box",
+                  "layout": "vertical",
+                  "contents": [
+                    {
+                      "type": "text",
+                      "text": "Language: " + liff.getLanguage(),
+                      "size": "sm",
+                      "wrap": true
+                    }
+                  ],
+                  "spacing": "sm",
+                  "margin": "md"
+                },
+                {
+                  "type": "box",
+                  "layout": "vertical",
+                  "contents": [
+                    {
+                      "type": "text",
+                      "text": "LIFFV: " + liff.getVersion(),
+                      "size": "sm",
+                      "wrap": true
+                    }
+                  ],
+                  "spacing": "sm",
+                  "margin": "md"
+                },
+                {
+                  "type": "box",
+                  "layout": "vertical",
+                  "contents": [
+                    {
+                      "type": "text",
+                      "text": "LINEV: " + liff.getLineVersion(),
+                      "size": "sm",
+                      "wrap": true
+                    }
+                  ],
+                  "spacing": "sm",
+                  "margin": "md"
+                },
+                {
+                  "type": "box",
+                  "layout": "vertical",
+                  "contents": [
+                    {
+                      "type": "text",
+                      "text": "Getcontext: " + liff.getContext().groupId,
+                      "size": "sm",
+                      "wrap": true
+                    }
+                  ],
+                  "spacing": "sm",
+                  "margin": "md"
+                },
+                {
+                  "type": "box",
+                  "layout": "vertical",
+                  "contents": [
+                    {
+                      "type": "text",
+                      "text": "Email: " + liff.getDecodedIDToken().email,
+                      "size": "sm",
+                      "wrap": true
+                    }
+                  ],
+                  "spacing": "sm",
+                  "margin": "md"
+                },
+                {
+                  "type": "box",
+                  "layout": "vertical",
+                  "contents": [
+                    {
+                      "type": "text",
+                      "text": "name: " + liff.getDecodedIDToken().name,
+                      "size": "sm",
+                      "wrap": true
+                    }
+                  ],
+                  "spacing": "sm",
+                  "margin": "md"
+                }
+              ]
+            }
+          ],
+          "spacing": "xl",
+          "paddingAll": "20px"
+        }
+      ],
+      "paddingAll": "0px"
+    },
+    "footer": {
+      "type": "box",
+      "layout": "vertical",
+      "contents": [
+        {
+          "type": "button",
+          "action": {
+            "type": "uri",
+            "label": "Profile me",
+            "uri": "https://line.me/R/app/2006134287-AvV8gYlJ?metalspro=profile"
+          },
+          "style": "primary",
+          "height": "sm"
+        }
+      ]
+    }
+  }
+}]
+              sendflex(msg)
+              
+              
+  }).catch((err) => {
+    console.log("error", err);
+  });
+            
+            
+          }
+          
+          //----------prompt you can add more-------------
+          
+          if(key == "notidbliff"){
+           
+           
+           //-- var linkshare = encodeURI("https://line.me/R/app/2006134287-AvV8gYlJ?metalspro=notidbliff")
+            var msg = [{
+  "type": "flex",
+  "altText": "Expert Advisor Center",
+  "contents": {
+  "type": "carousel",
+  "contents": [
+    {
+      "type": "bubble",
+      "body": {
+        "type": "box",
+        "layout": "vertical",
+        "contents": [
+          {
+            "type": "image",
+            "url": "https://lh3.googleusercontent.com/d/1JJOXFCUnbI3cGsET7kBIyVFIlX-zwzd3",
+            "size": "full",
+            "aspectMode": "cover",
+            "aspectRatio": "2:3",
+            "gravity": "top"
+          },
+          {
+            "type": "box",
+            "layout": "vertical",
+            "contents": [
+              {
+                "type": "box",
+                "layout": "vertical",
+                "contents": [
+                  {
+                    "type": "text",
+                    "text": "Expert Advisor Website",
+                    "size": "xl",
+                    "color": "#ffffff",
+                    "weight": "bold"
+                  }
+                ],
+                "action": {
+                  "type": "uri",
+                  "label": "share liff",
+                  "uri": "https://line.me/R/app/2006134287-Q6NyW6AR"
+                }
+              },
+              {
+                "type": "box",
+                "layout": "baseline",
+                "contents": [
+                  {
+                    "type": "text",
+                    "text": "Free Signal , Download , Review",
+                    "color": "#ebebeb",
+                    "size": "sm",
+                    "flex": 0,
+                    "weight": "bold",
+                    "wrap": true
+                  }
+                ],
+                "spacing": "lg",
+                "action": {
+                  "type": "uri",
+                  "label": "share liff",
+                  "uri": "https://line.me/R/app/2006134287-Q6NyW6AR"
+                }
+              },
+              {
+                "type": "box",
+                "layout": "vertical",
+                "contents": [
+                  {
+                    "type": "text",
+                    "text": "Check on our website click",
+                    "size": "lg",
+                    "color": "#00DB1D",
+                    "weight": "bold",
+                    "wrap": false
+                  }
+                ],
+                "action": {
+                  "type": "uri",
+                  "label": "share",
+                  "uri": "https://line.me/R/app/2006134287-Q6NyW6AR"
+                }
+              },
+              {
+                "type": "box",
+                "layout": "vertical",
+                "contents": [
+                  {
+                    "type": "filler"
+                  },
+                  {
+                    "type": "box",
+                    "layout": "baseline",
+                    "contents": [
+                      {
+                        "type": "filler"
+                      },
+                      {
+                        "type": "filler"
+                      },
+                      {
+                        "type": "text",
+                        "text": "Share Us to your friend 👈",
+                        "color": "#ffffff",
+                        "flex": 0,
+                        "offsetTop": "-2px",
+                        "offsetStart": "-10px"
+                      },
+                      {
+                        "type": "filler"
+                      }
+                    ],
+                    "spacing": "sm"
+                  },
+                  {
+                    "type": "filler"
+                  }
+                ],
+                "borderWidth": "1px",
+                "cornerRadius": "4px",
+                "spacing": "sm",
+                "borderColor": "#ffffff",
+                "margin": "xxl",
+                "height": "40px",
+                "action": {
+                  "type": "uri",
+                  "label": "action",
+                  "uri": "https://line.me/R/app/2006134287-AvV8gYlJ?metalspro=notidbliff"
+                }
+              }
+            ],
+            "position": "absolute",
+            "offsetBottom": "0px",
+            "offsetStart": "0px",
+            "offsetEnd": "0px",
+            "backgroundColor": "#f72585",
+            "paddingAll": "20px",
+            "paddingTop": "18px",
+            "background": {
+              "type": "linearGradient",
+              "angle": "0deg",
+              "startColor": "#000000",
+              "endColor": "#005029"
+            }
+          }
+        ],
+        "paddingAll": "0px",
+        "action": {
+          "type": "uri",
+          "label": "action",
+          "uri": "https://line.me/R/app/2006134287-Q6NyW6AR"
+        }
+      }
+    }
+  ]
+}
+}]
+          
+            shareflex(msg)
+          }
+          
+          
+       
+         //-------ดึงรูป--------
+          if(key == "img"){
+            var yy = params.get("pic")
+            var msg = [{
+  "type": "image",
+  "originalContentUrl": "" + yy,
+  "previewImageUrl": "" + yy
+}]
+            sendflex(msg)
+          }
+          
+          
+      
+          //------เรียก text -------
+
+          if(key == "text"){
+            var xx = params.get("msg")
+            var msg = [{
+    "type": "text",
+    "text": "" + xx
+}]
+            sendflex(msg)
+          }
+          
+      
+        
+      
+          //-------------
+               if(key == "prompt"){
+                 var nn = prompt("please input text")
+           
+            var msg = [{
+    "type": "text",
+    "text": "https://line.me/R/app/2006134287-AvV8gYlJ?metalspro=text&msg=" +nn
+}]
+            sendflex(msg)
+          }
+          
+          
+          
+          
+        }else{
+          liff.login();
+        }
+      })
+    }
+  
+  function sendflex( msg ){
+    liff.sendMessages( msg ).then(() => {
+    liff.closeWindow();
+  })
+  .catch((err) => {
+    console.log("error", err);
+  });
+  }
+  
+  function shareflex( msg ){
+    liff.shareTargetPicker( msg ).then(function (res) {
+    if (res) {
+     liff.closeWindow();
+      
+    } else {
+      // sending message canceled
+      console.log("TargetPicker was closed!");
+    }
+  })
+  .catch(function (error) {
+    // something went wrong before sending a message
+    console.log("something wrong happen");
+  });
+    
+  }
+  
+    </script>    
+    <script charset="utf-8" src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+  </body>
+</html>
