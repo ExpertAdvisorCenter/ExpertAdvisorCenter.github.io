@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+    <html>
+
+        <head>
+            <meta charset="UTF-8" />
+            <meta name="viewport" content="width=device-width, initial-scale=1" />
+            <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+            <script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
+            <script src="https://cdn.tailwindcss.com"></script>
+            <script src="https://cdn.jsdelivr.net/npm/party-js@latest/bundle/party.min.js"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+            <link rel="stylesheet" href="https://bit.ly/fontiton5" type="text/css" charset="utf-8" />
+            <style type="text/css">
+                body {
+                    min - height: 100%;
+                background-color: #F3F4F6;
+                font-family: 'line_seed_sans_th';
+          
+        }
+
+                .box {
+                    position: absolute;
+                bottom: 1rem;
+                right: 1rem;
+                width:  350px;
+                background-color: #fff;
+                border-radius: 20px;
+                overflow: hidden;
+                box-shadow: 0 1px 1px hsl(0deg 0% 0% / 0.075),
+                0 2px 2px hsl(0deg 0% 0% / 0.075), 0 4px 4px hsl(0deg 0% 0% / 0.075),
+                0 8px 8px hsl(0deg 0% 0% / 0.075), 0 16px 16px hsl(0deg 0% 0% / 0.075);
+                animation-delay: 1s;
+                animation: slide-up 300ms ease-in-out;
+}
+
+                @keyframes slide-up {
+                    from {
+                    transform: translateY(100%);
+  }
+
+                to {
+                    opacity: 1;
+                transform: translateY(0);
+  }
+}
+
+                .image-wrapper {
+                    height: 130px;
+                margin-bottom: 1rem;
+}
+
+
+
+                h2 {
+                    margin - bottom: 1.5rem;
+                font-size: 1.5rem;
+                font-weight: 500;
+}
+
+                p {
+                    text - align: center;
+                margin-bottom: 1rem;
+                line-height: 1.5;
+                font-weight: 300;
+}
+
+                .box-header {
+                    display: flex;
+                align-items: center;
+                justify-content: center;
+                flex-direction: column;
+                padding: 2rem 2rem 0;
+}
+
+                .box-footer {
+                    display: flex;
+                align-items: center;
+                justify-content: space-between;
+                border-top: 1px solid #eee;
+}
+
+                .cta {
+                    flex: 1;
+                padding: 1rem;
+                background-color: #fff;
+                border: none;
+                font-size: 1.1rem;
+                cursor: pointer;
+                transition: all 200ms ease-in;
+}
+
+                .cta:focus, .cta:hover {
+                    background - color: #000;
+                color: #fff;
+}
+
+                .cta:focus {
+                    outline - offset: -10px;
+}
+
+                .cta:last-of-type {
+                    text - transform: uppercase;
+}
+
+
+                .banner {
+                    animation: bounceActive 1s ease-in-out both;
+                animation-delay: 2s;
+}
+                .banner.close {
+                    animation: hidden 1s ease-in-out both;
+}
+                @keyframes bounceActive {
+                    0 % {
+                        transform: translate(0, -60px);
+                        opacity: 0;
+                    }
+  50% {
+                    opacity: 0.75;
+                transform: translate(0, 10px);
+  }
+                100% {
+                    opacity: 1;
+                transform: translate(0, 0px);
+  }
+}
+                .banner {
+                    animation: bounceActive 1s ease-in-out both;
+                animation-delay: 2s;
+}
+                @keyframes hidden {
+                    100 % {
+                        transform: translate(0, -60px);
+                        opacity: 0;
+                    }
+  50% {
+                    opacity: 0.75;
+                transform: translate(0, 10px);
+  }
+                0% {
+                    opacity: 1;
+                transform: translate(0, 0px);
+  }
+}
+                /*       -------------- */
+
+                .panel-container {
+                    background - color: #fff;
+                box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+                border-radius: 4px;
+                font-size: 90%;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                text-align: center;
+                padding: 30px;
+                max-width: 400px;
+}
+
+                .panel-container strong {
+                    line - height: 20px;
+}
+
+                .ratings-container {
+                    display: flex;
+                margin: 20px 0;
+}
+
+                .rating {
+                    flex: 1;
+                cursor: pointer;
+                padding: 20px;
+                margin: 10px 5px;
+}
+
+                .rating:hover,
+                .rating:active {
+                    border - radius: 4px;
+                box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+                .rating img {
+                    width: 40px;
+}
+
+                .rating small {
+                    color: #555;
+                display: inline-block;
+                margin: 10px 0 0;
+}
+
+                .rating:hover small,
+                .rating:active small {
+                    color: #111;
+}
+
+                .btn {
+                    background - color: #302d2b;
+                color: #fff;
+                border: 0;
+                border-radius: 4px;
+                padding: 12px 30px;
+                cursor: pointer;
+}
+
+                .btn:focus {
+                    outline: 0;
+}
+
+                .btn:active {
+                    transform: scale(0.98);
+}
+
+                .fa-heart {
+                    color: red;
+                font-size: 30px;
+                margin-bottom: 10px;
+}
+            </style>
+            <title>admin booking appointment</title>
+        </head>
+
+        <body>
+
+            <section class="h-16 bg-blue-500 flex items-center justify-between px-7 w-full banner">
+                <div class="wrapper-left flex justify-between items-center space-x-5">
+                    <div class="rounded-full container-img  text-white w-10 h-10 flex justify-center items-center rounded-lg ">
+                        <img
+                            src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExcjg5ajlhemdyZjlrZDgwdjMwbTl1dGdtbnhvM2p4Y2t0ZnpnZnE4ciZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/l150Tal3EKqgj0v9gs/giphy.gif"
+                            class="rounded-full" alt="" id="pictureUrl">
+
+                    </div>
+
+                    <div class="text-white font-medium flex">
+                        <h1 id="displayName">...</h1>
+                    </div>
+                </div>
+                <div class="wrapper-right text-white flex justify-between items-center">
+                    <button class="bg-blue-500 group hover:translate-y-[-2px] flex space-x-2 transition-all duration-150 ease-in-out hover:bg-blue-600 shadow-md shadow-blue-700 rounded-full px-4 py-1" id="button">
+                        <span class="group-hover:text-white" >ดูคิวทั้งหมด</span>
+                        <span class="group-hover:hidden">😄</span>
+                        <span class="group-hover:block hidden">😀</span>
+                    </button>
+                    <button id="btn-close" class="p-2 focus:outline-none focus:bg-blue-400 focus:text-gray-900 rounded-md ml-2">
+                        <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                    </button>
+                </div>
+            </section>
+            <div id="myProject">
+                <div id="loading-overlay">
+                    <img class="h-32 w-32 dark:border-gray-800 mx-auto my-4 mt-5"
+                        src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExN3psdDI1NTBvMnh3d2o5b2FoMzlyNTM1azJxcDI2dmpqb2NvOXY1bCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/kuTMoE30RJwFry8Yqm/giphy.gif"
+                        alt="Load Data">
+
+                </div>
+            </div>
+
+            <div id="loadingoverlay" class="fixed inset-0 bg-gray-500 bg-opacity-75 z-50 flex items-center justify-center hidden">
+                <img src="https://i.giphy.com/media/v1.Y2lkPTc5MGI3NjExdTh0NmcxMGhhcndvZHV6OHplY2dxb21yc3Vud2EyY3c4bmpzNDA3dSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/jAYUbVXgESSti/giphy.gif" alt="Loading..." class="w-screen h-auto">
+            </div>
+            <script>
+
+                async function main() {
+        const liffId = '2006134287-4vOWDlq9';
+                try {
+                    await liff.init({ liffId });
+
+                if (!liff.isLoggedIn()) {
+                const destinationUrl = window.location.href;
+                liff.login({redirectUri: destinationUrl });
+            }
+
+            liff.ready.then(() => {
+                const user = liff.getDecodedIDToken();
+                if (user) {
+                    document.getElementById('pictureUrl').src = user.picture;
+                document.getElementById('displayName').textContent = user.name;
+                }
+                getData();
+            });
+        } catch (error) {
+                    console.error("LIFF initialization failed", error);
+        }
+    }
+
+                main();
+
+                const btnCerrar = document.getElementById("btn-close");
+                const banner = document.querySelector(".banner");
+    btnCerrar.addEventListener("click", () => {
+                    banner.classList.toggle("close");
+    });
+
+    setInterval(() => {
+        if (banner.classList.contains("close")) {
+                    banner.classList.toggle("close");
+        }
+    }, 4000);
+
+                document.querySelector("#button").addEventListener("click", function () {
+                    Swal.fire('ต้องการเรียกคิวทั้งหมด?', 'คลิกปุ่มเพื่อดำเนินการต่อ', 'warning').then(() => {
+                        party.confetti(this)
+                        setTimeout(function () {
+                            location.reload()
+                        }, 3000);
+                    });
+      
+       
+        
+        
+  
+        
+            
+    });
+        
+      <!-- Edit google adminbooking 364 ,323 bookingform-->
+
+    const getData = () => {
+                    $('#loading-overlay').removeClass('hidden');
+                fetch('https://script.google.com/macros/s/AKfycbypfsgL3J6A2TYyW5jEaI9GppD_GztamdAdJgOKaxoEuhOJq5ppwF30zfbnSwtkG-ht/exec?q=รอคิว')
+            .then((response) => {
+                    $('#loading-overlay').addClass('hidden');
+                if (!response.ok) throw new Error('Network response was not ok');
+                return response.json();
+            })
+            .then((data) => {
+                    let dataHTML = '';
+                data.forEach((d) => {
+                    dataHTML += `
+                        <div class="p-3 flex items-center justify-between border-t cursor-pointer hover:bg-gray-200">
+                            <div class="flex items-center">
+                                <img class="rounded-full h-10 w-10" src="${d.column3}" alt="User Image">
+                                <div class="ml-2 flex flex-col">
+                                    <div class="leading-snug text-sm text-gray-900 font-bold">${d.column2 || "Name"}</div>
+                                    <div class="leading-snug text-xs text-gray-600">@${d.column6}</div>
+                                    <div class="leading-snug text-xs text-gray-600">วันที่: ${d.column7} เวลา:${d.column8}</div>
+                                    
+                                </div>
+                            </div>
+                            <button class="h-8 px-3 text-md font-bold text-blue-400 border border-blue-400 rounded-full hover:bg-blue-100" id="called" onclick="sendToSheet('${d.column1}' , '${d.column6}' , '${d.column7}' , '${d.column8}')">เรียกคิว</button>
+                        </div>`;
+                });
+                document.getElementById('myProject').innerHTML += dataHTML || `<div class="bg-gray-100 dark:bg-gray-800">
+                    <div class="min-h-screen flex items-center justify-center">
+                        <div class="max-w-2xl w-full px-4">
+                            <h1 class="text-4xl font-bold text-center mb-8 text-gray-900 dark:text-white">ยังไม่มีลูกค้าจองคิวเข้ามา 😁</h1> </div>
+                    </div>
+                </div>`;
+            })
+            .catch((error) => {
+                    console.error("Failed to fetch data:", error);
+            });
+    };
+
+
+
+                async function sendToSheet(userId, hairdresser, datebook, timebook) {
+           
+            try {
+                    $('#loadingoverlay').removeClass('hidden');
+                const response = await $.post('https://script.google.com/macros/s/AKfycbxYl-jPX2EClEn10hsvkwitW9XygUy6z_g6arjOQbXSzwDnRaotjX7me5k-Zfv6xB2y/exec', {
+
+                userId: userId,
+                hairdresser: hairdresser,
+                datebook: datebook,
+                timebook: timebook
+                });
+
+                if (response.statusCode === 200) {
+                    $('#loadingoverlay').addClass('hidden');
+                const flexMessage = JSON.parse(response.body);
+                    Swal.fire('ดำเนินการสำเร็จ', 'ส่งแจ้งเตือนลูกค้าเรียบร้อย', 'success').then(() => {
+                    // sendMessages([flexMessage]);
+                    window.location.replace(window.location.href);
+                    });
+                }
+            } catch (error) {
+                    console.error('Error sending data to sheet', error);
+                
+            }
+        }
+
+                async function sendMessages(msg) {
+            try {
+                    await liff.sendMessages(msg);
+                Swal.fire({
+                    position: "top-end",
+                icon: "success",
+                title: "ส่งเข้าแชทเรียบร้อย",
+                showConfirmButton: false,
+                timer: 1500,
+                }).then(() => {
+                    window.location.replace(window.location.href);
+                });
+            } catch (error) {
+                    console.error('Error sending messages', error);
+            }
+        }
+
+            </script>
+
+
+        </body>
+
+    </html>
