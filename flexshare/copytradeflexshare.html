@@ -1,0 +1,416 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>♥️ Expert Advisor Center</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+  </head>
+  <body>
+    
+    
+     <div class="alert alert-primary" role="alert">
+      
+  Marketingpro Creative<a href="https://lin.ee/Tr3Tnjz" class="alert-link">ติดต่อสอบถามคลิก!!</a>.
+      
+     </div>
+    
+<div class="d-flex justify-content-center">
+ <img src="https://sv1.picz.in.th/images/2023/12/16/d0ufrgt.gif" class="card-img-top" alt="Loading">
+  
+     </div>
+    
+<script>
+    window.onload = function(e){
+      liff.init({liffId: "2006134287-yga01P7N"}, function(){
+        if(liff.isLoggedIn()){
+        var params = (new URL(document.location)).searchParams;
+          var key = params.get("expertadvisorcenter")
+          
+          if(key == "web"){
+            var x = params.get("url")
+            liff.openWindow({
+  url: "" + x,
+  external: false,
+});
+          }
+          
+          if(key == "profile"){
+            liff.getProfile().then((profile) => {
+    const userID = profile.userId;          
+    const name = profile.displayName;
+    const pic = profile.pictureUrl;
+    const stat = profile.statusMessage
+              
+              var msg =[{
+  "type": "flex",
+  "altText": "Flex Message",
+  "contents": {
+    "type": "bubble",
+    "body": {
+      "type": "box",
+      "layout": "vertical",
+      "contents": [
+        {
+          "type": "box",
+          "layout": "horizontal",
+          "contents": [
+            {
+              "type": "box",
+              "layout": "vertical",
+              "contents": [
+                {
+                  "type": "image",
+                  "url": "" + pic,
+                  "aspectMode": "cover",
+                  "size": "full"
+                }
+              ],
+              "cornerRadius": "100px",
+              "width": "72px",
+              "height": "72px"
+            },
+            {
+              "type": "box",
+              "layout": "vertical",
+              "contents": [
+                {
+                  "type": "text",
+                  "contents": [
+                    {
+                      "type": "span",
+                      "text": "" + liff.getDecodedIDToken().name,
+                      "weight": "bold",
+                      "color": "#000000"
+                    },
+                    {
+                      "type": "span",
+                      "text": "     "
+                    },
+                    {
+                      "type": "span",
+                      "text": ""+ stat
+                    }
+                  ],
+                  "size": "sm",
+                  "wrap": true
+                },
+                {
+                  "type": "box",
+                  "layout": "vertical",
+                  "contents": [
+                    {
+                      "type": "text",
+                      "text": "userId: " + userID,
+                      "size": "sm",
+                      "wrap": true
+                    }
+                  ],
+                  "spacing": "sm",
+                  "margin": "md"
+                },
+                {
+                  "type": "box",
+                  "layout": "vertical",
+                  "contents": [
+                    {
+                      "type": "text",
+                      "text": "OS: " + liff.getOS(),
+                      "size": "sm",
+                      "wrap": true
+                    }
+                  ],
+                  "spacing": "sm",
+                  "margin": "md"
+                },
+                {
+                  "type": "box",
+                  "layout": "vertical",
+                  "contents": [
+                    {
+                      "type": "text",
+                      "text": "Language: " + liff.getLanguage(),
+                      "size": "sm",
+                      "wrap": true
+                    }
+                  ],
+                  "spacing": "sm",
+                  "margin": "md"
+                },
+                {
+                  "type": "box",
+                  "layout": "vertical",
+                  "contents": [
+                    {
+                      "type": "text",
+                      "text": "LIFFV: " + liff.getVersion(),
+                      "size": "sm",
+                      "wrap": true
+                    }
+                  ],
+                  "spacing": "sm",
+                  "margin": "md"
+                },
+                {
+                  "type": "box",
+                  "layout": "vertical",
+                  "contents": [
+                    {
+                      "type": "text",
+                      "text": "LINEV: " + liff.getLineVersion(),
+                      "size": "sm",
+                      "wrap": true
+                    }
+                  ],
+                  "spacing": "sm",
+                  "margin": "md"
+                },
+                {
+                  "type": "box",
+                  "layout": "vertical",
+                  "contents": [
+                    {
+                      "type": "text",
+                      "text": "Getcontext: " + liff.getContext().groupId,
+                      "size": "sm",
+                      "wrap": true
+                    }
+                  ],
+                  "spacing": "sm",
+                  "margin": "md"
+                },
+                {
+                  "type": "box",
+                  "layout": "vertical",
+                  "contents": [
+                    {
+                      "type": "text",
+                      "text": "Email: " + liff.getDecodedIDToken().email,
+                      "size": "sm",
+                      "wrap": true
+                    }
+                  ],
+                  "spacing": "sm",
+                  "margin": "md"
+                },
+                {
+                  "type": "box",
+                  "layout": "vertical",
+                  "contents": [
+                    {
+                      "type": "text",
+                      "text": "name: " + liff.getDecodedIDToken().name,
+                      "size": "sm",
+                      "wrap": true
+                    }
+                  ],
+                  "spacing": "sm",
+                  "margin": "md"
+                }
+              ]
+            }
+          ],
+          "spacing": "xl",
+          "paddingAll": "20px"
+        }
+      ],
+      "paddingAll": "0px"
+    },
+    "footer": {
+      "type": "box",
+      "layout": "vertical",
+      "contents": [
+        {
+          "type": "button",
+          "action": {
+            "type": "uri",
+            "label": "Profile me",
+            "uri": "https://line.me/R/app/2006134287-yga01P7N?expertadvisorcenter=profile"
+          },
+          "style": "primary",
+          "height": "sm"
+        }
+      ]
+    }
+  }
+}]
+              sendflex(msg)
+              
+              
+  }).catch((err) => {
+    console.log("error", err);
+  });
+            
+            
+          }
+          
+          //----------prompt you can add more-------------
+          
+          if(key == "copytrade"){
+           
+      
+          
+         //-- var linkshare = encodeURI("https://line.me/R/app/2006134287-yga01P7N?expertadvisorcenter=copytrade")
+          var msg = [{
+  "type": "flex",
+  "altText": "ExpertAdvisorCenter",
+  "contents": {
+      "type": "bubble",
+      "size": "giga",
+      "hero": {
+        "type": "image",
+        "url": "https://lh3.googleusercontent.com/d/1PUVUbqV2JW4EHbCmSLWI7X7K-aQa7UA1",
+        "aspectRatio": "100:20",
+        "size": "full",
+        "aspectMode": "cover",
+        "animated": true,
+        "action": {
+          "type": "uri",
+          "label": "รายละเอียด EA",
+          "uri": "https://line.me/R/app/2000584392-Q9lpb31A"
+        }
+      },
+      "footer": {
+        "type": "box",
+        "layout": "vertical",
+        "contents": [
+          {
+            "type": "box",
+            "layout": "horizontal",
+            "contents": [
+              {
+                "type": "button",
+                "action": {
+                  "type": "uri",
+                  "label": "website",
+                  "uri": "https://line.me/R/app/2006134287-Q6NyW6AR"
+                },
+                "style": "link",
+                "color": "#71ff20",
+                "offsetEnd": "xxl"
+              },
+              {
+                "type": "button",
+                "action": {
+                  "type": "uri",
+                  "label": "install EA",
+                  "uri": "https://line.me/R/oaMessage/@085vyswo/?installation"
+                },
+                "color": "#71ff20"
+              },
+              {
+                "type": "button",
+                "action": {
+                  "type": "uri",
+                  "label": "Share us",
+                  "uri": "https://line.me/R/app/2006134287-yga01P7N?expertadvisorcenter=copytrade"
+                },
+                "color": "#71ff20"
+              }
+            ]
+          },
+          {
+            "type": "box",
+            "layout": "vertical",
+            "contents": [
+              {
+                "type": "image",
+                "url": "https://lh3.googleusercontent.com/d/1C_8azIx94dpmhKfzPemQ1fMgggzZoYqY",
+                "align": "end",
+                "size": "full",
+                "aspectRatio": "100:100",
+                "animated": true,
+                "aspectMode": "cover",
+                "offsetBottom": "md"
+              }
+            ],
+            "action": {
+              "type": "uri",
+              "label": "website",
+              "uri": "https://socialtradingregister.cxmdirect.com/portal/registration/subscription/97491/ExpertCenter30"
+            }
+          },
+          {
+            "type": "box",
+            "layout": "vertical",
+            "contents": [
+              {
+                "type": "image",
+                "url": "https://lh3.googleusercontent.com/d/1GH3UsEEpVdcPrO-hgF8GHgaUlDC4GkD_",
+                "align": "end",
+                "size": "full",
+                "aspectRatio": "100:20",
+                "animated": true,
+                "aspectMode": "cover"
+              }
+            ]
+          },
+          {
+            "type": "image",
+            "url": "https://lh3.googleusercontent.com/d/1eAy2X7pwu0fq0zRlGgYcWp2ujJSr01PU",
+            "position": "absolute",
+            "size": "xxs",
+            "animated": true,
+            "offsetStart": "23%",
+            "offsetTop": "4.5%"
+          }
+        ],
+        "backgroundColor": "#000000"
+      }
+    }
+}]
+            shareflex(msg)
+          } 
+          
+      
+          //-------------
+               if(key == "prompt"){
+                 var nn = prompt("please input text")
+           
+            var msg = [{
+    "type": "text",
+    "text": "https://line.me/R/app/2006134287-yga01P7N?expertadvisorcenter=text&msg=" +nn
+}]
+            sendflex(msg)
+          }
+          
+          
+          
+          
+        }else{
+          liff.login();
+        }
+      })
+    }
+  
+  function sendflex( msg ){
+    liff.sendMessages( msg ).then(() => {
+    liff.closeWindow();
+  })
+  .catch((err) => {
+    console.log("error", err);
+  });
+  }
+  
+  function shareflex( msg ){
+    liff.shareTargetPicker( msg ).then(function (res) {
+    if (res) {
+     liff.closeWindow();
+      
+    } else {
+      // sending message canceled
+      console.log("TargetPicker was closed!");
+    }
+  })
+  .catch(function (error) {
+    // something went wrong before sending a message
+    console.log("something wrong happen");
+  });
+    
+  }
+  
+    </script>    
+    <script charset="utf-8" src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+  </body>
+</html>
