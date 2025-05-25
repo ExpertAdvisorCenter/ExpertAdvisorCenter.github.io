@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>แชร์ Flex จากฐานข้อมูล</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.css" rel="stylesheet" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        primary: {
+                            50: '#f0fdf4',
+                            100: '#dcfce7',
+                            200: '#bbf7d0',
+                            300: '#86efac',
+                            400: '#4ade80',
+                            500: '#22c55e',
+                            600: '#16a34a',
+                            700: '#15803d',
+                            800: '#166534',
+                            900: '#14532d',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/alpinejs/2.8.1/alpine.js"></script>
+    <link rel="stylesheet" href="https://bit.ly/fontiton5" type="text/css" charset="utf-8" />
+    <style>
+        body {
+            font-family: 'line_seed_sans_th';
+            margin: 0;
+            padding: 0;
+            background-color: #000000; /* สีพื้นหลังดำ */
+            min-height: 100vh;
+        }
+
+        .top-100 {
+            top: 100%
+        }
+
+        .bottom-100 {
+            bottom: 100%
+        }
+
+        .max-h-select {
+            max-height: 300px;
+        }
+        
+        /* สไตล์สำหรับ dropdown */
+        .dropdown-option:hover {
+            background-color: #166534 !important; /* สีเขียวเข้มเมื่อ hover */
+            color: white;
+        }
+        
+        /* สไตล์สำหรับปุ่ม */
+        .btn-primary {
+            background-color: #22c55e; /* สีเขียว */
+            transition: all 0.3s;
+        }
+        
+        .btn-primary:hover {
+            background-color: #16a34a; /* สีเขียวเข้มเมื่อ hover */
+        }
+    </style>
+</head>
+
+<body class="dark:bg-gray-900">
+
+    <div class="flex flex-col items-center py-8">
+        <div class="w-full md:w-1/2 flex flex-col items-center">
+            <div class="w-full px-4">
+
+                <div
+                    class="w-full my-2 p-4 text-center bg-00ff80 border border-gray-700 rounded-lg shadow sm:p-8">
+                    <div class="inline-flex items-center text-center gap-4">
+                        <img class="w-10 h-10 rounded-full"
+                            src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExdDU0bDJtZWtiZTN1NXVmc3lpYnhzNWl5dXAzYXU0c20xYXAzMmNiMiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/5AtXMjjrTMwvK/giphy.gif"
+                            alt="" id="profileurl">
+                        <div class="font-medium text-white">
+                            <div id="displaynamefield">Displayname</div>
+                            <div class="text-sm text-gray-400">ผู้ดำเนินการส่งข้อมูล</div>
+                        </div>
+                    </div>
+                    <h5 class="my-2 mb-2 text-3xl font-bold text-primary-500">ShareTargetPicker Message</h5>
+                    <p class="mb-5 text-base text-gray-100 sm:text-lg">ระบบ Dropdown แชร์ Flex
+                        Expert Advisor Center</p>
+                </div>
+
+
+                <div x-data="selectConfigs()" x-init="fetchOptions()" class="flex flex-col items-center relative my-2">
+
+                    <div class="w-full">
+                        <label for="name"
+                            class="my-2 font-semibold text-gray-300 inline-block pb-2">โปรดเลือก
+                            Flex ที่ท่านต้องการแชร์</label>
+                        <div @click.away="close()" class="p-1 bg-gray-800 flex border border-gray-700 rounded">
+                            <input x-model="filter" x-transition:leave="transition ease-in duration-100"
+                                x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0"
+                                @mousedown="open()" @keydown.enter.stop.prevent="selectOption()"
+                                @keydown.arrow-up.prevent="focusPrevOption()"
+                                @keydown.arrow-down.prevent="focusNextOption()"
+                                class="p-1 px-2 appearance-none outline-none w-full text-white bg-gray-800" name="flexDB"
+                                id="flexDB">
+                            <div class="text-gray-400 w-8 py-1 pl-2 pr-1 border-l flex items-center border-gray-700">
+                                <button @click="toggle()"
+                                    class="cursor-pointer w-6 h-6 text-gray-400 outline-none focus:outline-none">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" fill="none"
+                                        viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"
+                                        stroke-linecap="round" stroke-linejoin="round">
+                                        <polyline x-show="!isOpen()" points="18 15 12 20 6 15"></polyline>
+                                        <polyline x-show="isOpen()" points="18 15 12 9 6 15"></polyline>
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div x-show="isOpen()"
+                        class="absolute shadow bg-gray-800 top-100 z-40 w-full lef-0 rounded max-h-select overflow-y-auto svelte-5uyqqj border border-gray-700">
+                        <div class="flex flex-col w-full">
+                            <template x-for="(option, index) in filteredOptions()" :key="index">
+                                <div @click="onOptionClick(index)" :class="classOption(option, index)"
+                                    :aria-selected="focusedOptionIndex === index" class="dropdown-option">
+                                    <div
+                                        class="flex w-full items-center p-2 pl-2 border-transparent border-l-2 relative hover:border-green-500">
+                                        <div class="w-6 flex flex-col items-center">
+                                            <div
+                                                class="flex relative w-5 h-5 bg-green-500 justify-center items-center m-1 mr-2 w-4 h-4 mt-1 rounded-full ">
+                                                <img class="rounded-full" alt="F" x-bind:src="option.column4">
+                                            </div>
+                                        </div>
+                                        <div class="w-full items-center flex">
+                                            <div class="mx-2 -mt-1"><span class="text-white" x-text="option.column3"></span>
+                                                <div class="text-xs truncate w-full normal-case font-normal -mt-1 text-gray-400"
+                                                    x-text="option.column1"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </template>
+                        </div>
+                    </div>
+                </div>
+
+                <div>
+                    <input class="my-5 w-full btn-primary py-3 rounded-md text-white font-bold cursor-pointer hover:bg-green-700 transition-colors"
+                        type="button" id="submit" value="แชร์ Flex Message" />
+                </div>
+                <p class="text-center pt-5 text-gray-300">
+                    
+                    <a href="https://line.me/R/app/2006134287-Q6NyW6AR" class="text-green-400 font-bold hover:text-green-300">ย้อนกลับสู่ website 🏠 Expert Advisor Center</a>
+                </p>
+
+            </div>
+        </div>
+    </div>
+
+    <script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
+    <script>
+        function selectConfigs() {
+            return {
+                filter: '',
+                show: false,
+                selected: null,
+                focusedOptionIndex: null,
+                options: null,
+                close() {
+                    this.show = false;
+                    this.filter = this.selectedName();
+                    this.focusedOptionIndex = this.selected ? this.focusedOptionIndex : null;
+                },
+                open() {
+                    this.show = true;
+                    this.filter = '';
+                },
+                toggle() {
+                    if (this.show) {
+                        this.close();
+                    } else {
+                        this.open()
+                    }
+                },
+                isOpen() {
+                    return this.show === true
+                },
+                selectedName() {
+                    return this.selected ? this.selected.column2 : this.filter;
+                },
+                classOption(option, index) {
+                    const isSelected = this.selected ? (option.column1 == this.selected.column1) : false;
+                    const isFocused = (index == this.focusedOptionIndex);
+                    return {
+                        'cursor-pointer w-full border-b border-gray-700': true,
+                        'bg-green-900': isSelected,
+                        'bg-gray-700': isFocused
+                    };
+                },
+                fetchOptions() {
+                    fetch('https://script.google.com/macros/s/AKfycbxv-OpVKZTHwM3YVzLOzaQk_nagD8Kl_NqQ0-4QMIrbQSZJfrCCchSro3RB-RNxskC69Q/exec')
+                        .then(response => response.json())
+                        .then(data => this.options = data);
+                },
+                filteredOptions() {
+                    return this.options ? this.options.filter(option => {
+                        return (option.column1.toLowerCase().indexOf(this.filter.toLowerCase()) > -1) ||
+                            (option.column3.toLowerCase().indexOf(this.filter.toLowerCase()) > -1)
+                    }) : [];
+                },
+                onOptionClick(index) {
+                    this.focusedOptionIndex = index;
+                    this.selectOption();
+                },
+                selectOption() {
+                    if (!this.isOpen()) {
+                        return;
+                    }
+                    this.focusedOptionIndex = this.focusedOptionIndex ?? 0;
+                    const selected = this.filteredOptions()[this.focusedOptionIndex];
+                    if (this.selected && selected && this.selected.column1 == selected.column1) {
+                        this.filter = '';
+                        this.selected = null;
+                    } else {
+                        this.selected = selected;
+                        this.filter = this.selectedName();
+                    }
+                    this.close();
+                },
+                focusPrevOption() {
+                    if (!this.isOpen()) {
+                        return;
+                    }
+                    const optionsNum = Object.keys(this.filteredOptions()).length - 1;
+                    if (this.focusedOptionIndex > 0 && this.focusedOptionIndex <= optionsNum) {
+                        this.focusedOptionIndex--;
+                    } else if (this.focusedOptionIndex == 0) {
+                        this.focusedOptionIndex = optionsNum;
+                    }
+                },
+                focusNextOption() {
+                    const optionsNum = Object.keys(this.filteredOptions()).length - 1;
+                    if (!this.isOpen()) {
+                        this.open();
+                    }
+                    if (this.focusedOptionIndex == null || this.focusedOptionIndex == optionsNum) {
+                        this.focusedOptionIndex = 0;
+                    } else if (this.focusedOptionIndex >= 0 && this.focusedOptionIndex < optionsNum) {
+                        this.focusedOptionIndex++;
+                    }
+                }
+            }
+        }
+
+        window.onload = function () {
+            const defaultLiffId = "2006134287-56xkdD3B";
+            initializeLiff(defaultLiffId);
+        };
+
+        function initializeLiff(defaultLiffId) {
+            liff.init({
+                liffId: defaultLiffId,
+                withLoginOnExternalBrowser: true,
+            })
+
+            liff.ready.then(() => {
+                document.getElementById('profileurl').src = '' + liff.getDecodedIDToken().picture
+                document.getElementById('displaynamefield').textContent = '' + liff.getDecodedIDToken().name;
+
+            });
+
+            document.getElementById('submit').addEventListener('click', handleResult);
+        }
+
+        function handleResult() {
+            var flexDB = document.getElementById('flexDB').value;
+
+            if (flexDB.trim() === '') {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'โปรดกรอกข้อมูลให้ครบทุกช่อง',
+                    background: '#1f2937',
+                    color: 'white',
+                    iconColor: '#ef4444'
+                });
+                return;
+            }
+
+            var flexContents = JSON.parse(flexDB);
+
+            liff.shareTargetPicker([{
+                "type": "flex",
+                "altText": "Expert Advisor Center",
+                "contents": flexContents
+            }])
+                .then(function (res) {
+                    if (res) {
+                        Swal.fire({
+                            position: "top-end",
+                            icon: "success",
+                            title: "คุณได้แชร์ Message เรียบร้อยแล้ว",
+                            showConfirmButton: false,
+                            timer: 1500,
+                            background: '#1f2937',
+                            color: 'white',
+                            iconColor: '#10b981'
+                        }).then(() => {
+                            liff.closeWindow();
+                        });
+                    } else {
+                        Swal.fire({
+                            position: "top-end",
+                            icon: "info",
+                            title: "คุณได้ยกเลิกการแชร์ให้เพื่อน",
+                            showConfirmButton: false,
+                            timer: 1500,
+                            background: '#1f2937',
+                            color: 'white',
+                            iconColor: '#3b82f6'
+                        })
+                    }
+                })
+                .catch(function (error) {
+                    console.log("Something wrong happened");
+                });
+        }
+    </script>
+</body>
+
+</html>
