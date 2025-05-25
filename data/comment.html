@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>♥️ Expert Advisor Center</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script src="/script.js" defer></script>
+  <script src="/comment.js" defer></script>
+  <link rel="stylesheet" href="https://bit.ly/fontiton5" type="text/css" charset="utf-8" />
+  <script src="https://cdn.tailwindcss.com?plugins=forms,typography,aspect-ratio,line-clamp"></script>
+  <style>
+    body {
+      background-color: #000000;
+      font-family: 'line_seed_sans_th', sans-serif;
+      color: #ffffff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      margin: 0;
+    }
+    .form-container {
+      background-color: #1a1a1a;
+      padding: 2rem;
+      border-radius: 12px;
+      box-shadow: 0 4px 6px rgba(0, 255, 128, 0.1);
+      max-width: 400px;
+      width: 100%;
+    }
+    .form-container input {
+      background-color: #333333;
+      border: 1px solid #00ff80;
+      color: #ffffff;
+      padding: 0.75rem;
+      border-radius: 8px;
+      width: 100%;
+      margin-bottom: 1rem;
+    }
+    .form-container input:focus {
+      outline: none;
+      border-color: #00ff80;
+      box-shadow: 0 0 0 3px rgba(0, 255, 128, 0.2);
+    }
+    .form-container label {
+      color: #00ff80;
+      font-weight: bold;
+      margin-bottom: 0.5rem;
+      display: block;
+    }
+    .form-container button {
+      background-color: #00ff80;
+      color: #000000;
+      font-weight: bold;
+      padding: 0.75rem;
+      border-radius: 8px;
+      width: 100%;
+      cursor: pointer;
+      border: none;
+      transition: background-color 0.3s ease;
+    }
+    .form-container button:hover {
+      background-color: #00cc66;
+    }
+    .clickable-link {
+      color: #00ff80;
+      text-decoration: none;
+      font-weight: bold;
+      display: inline-block;
+      margin-top: 1rem;
+    }
+    .clickable-link:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body class="bg-black">
+  <div class="form-container">
+    <form action="" class="flex flex-col gap-4">
+      <div>
+        <label for="fname">Full Name</label>
+        <input type="text" name="fname" id="fname" placeholder="Name" />
+      </div>
+      <div>
+        <label for="comment">Comment</label>
+        <input type="text" name="comment" id="comment" placeholder="Your comment" />
+      </div>
+      <div>
+        <button type="button" id="submit">Post Comment</button>
+      </div>
+    </form>
+    <a href="https://liff.line.me/2006134287-Q6NyW6AR" class="clickable-link">🏠 Back to website 👈</a>
+  </div>
+
+  <div id="loading-overlay" class="fixed inset-0 bg-gray-500 bg-opacity-75 z-50 flex items-center justify-center hidden">
+    <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExODQwNjQ3Z2xvb3lrbGJjYWtxMzl5OTd2N3Zha3o1ajNncnpsMzM4dyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/XRILoySbALaSb1R0l6/giphy.gif" alt="Loading..." class="w-screen h-auto">
+  </div>
+
+  <script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
+  <script>
+    window.onload = function() {
+      const defaultLiffId = "2006134287-269bAvjG";
+      initializeLiff(defaultLiffId);
+    };
+
+    function initializeLiff(defaultLiffId) {
+      liff.init({
+        liffId: defaultLiffId,
+        withLoginOnExternalBrowser: true,
+      });
+      document.getElementById('submit').addEventListener('click', handleResult);
+    }
+
+    function handleResult() {
+      var fname = document.getElementById('fname').value;
+      var comment = document.getElementById('comment').value;
+
+      if (fname.trim() === '' || comment.trim() === '') {
+        Swal.fire('Error', 'โปรดกรอกข้อมูลให้ครบทุกช่อง', 'error');
+        return;
+      }
+
+      liff.getProfile()
+        .then(profile => {
+          const name = profile.displayName;
+          const userId = profile.userId;
+          const picture = profile.pictureUrl;
+          sendToGoogleSheet(fname, comment, userId, name, picture);
+          const message = `มีความคิดเห็นใหม่:\nชื่อ: ${fname}\nความคิดเห็น: ${comment}`;
+          sendToTelegramBot(message);
+        })
+        .catch(err => {
+          console.log("Error", err);
+        });
+    }
+
+    function sendToGoogleSheet(fname, comment, userId, name, picture) {
+      $('#loading-overlay').removeClass('hidden');
+      $.post('https://script.google.com/macros/s/AKfycbwN5FytOCL9XTEwDE3SsUjyKtLYG_cynj9fyuCPCJr7vvFMY71zu5scF1UsAfEsVbAHgg/exec', {
+        fname: fname,
+        comment: comment,
+        userId: userId,
+        name: name,
+        picture: picture
+      })
+      .done(function(response) {
+        $('#loading-overlay').addClass('hidden');
+        if (response.statusCode === 200) {
+          const flexMessage = JSON.parse(response.body);
+          liff.sendMessages([flexMessage])
+            .then(function(res) {
+              if (res) {
+                Swal.fire('ดำเนินการสำเร็จ', 'คุณได้บันทึกเรียบร้อยแล้ว', 'success')
+                  .then(() => {
+                    liff.closeWindow();
+                  });
+              } else {
+                console.log("TargetPicker was closed!");
+              }
+            })
+            .catch(function(error) {
+              console.log("Something wrong happened");
+            });
+        }
+      })
+      .fail(function(error) {
+        Swal.fire('Error', 'มีข้อผิดพลาดในการบันทึกข้อมูล', 'error');
+        liff.closeWindow();
+      });
+    }
+
+    function sendToTelegramBot(message) {
+      const botToken = '7666679556:AAEUixxGuykiQq-Zxk6Byk2nSj1GlUXUuwk';
+      const chatId = '855403385';
+      const url = `https://api.telegram.org/bot${botToken}/sendMessage`;
+
+      $.post(url, {
+        chat_id: chatId,
+        text: message
+      })
+      .done(function(response) {
+        console.log("Message sent to Telegram:", response);
+      })
+      .fail(function(error) {
+        console.error("Error sending message to Telegram:", error);
+      });
+    }
+  </script>
+</body>
+</html>
