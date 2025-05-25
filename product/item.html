@@ -1,0 +1,1051 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Expert Advisor Shop</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  <script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
+  <link rel="stylesheet" href="https://bit.ly/fontiton5" type="text/css" charset="utf-8" />
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            primary: '#10B981',  // สีเขียว Emerald
+            secondary: '#059669',  // สีเขียวเข้ม
+            accent: '#34D399',   // สีเขียวอ่อน
+            dark: '#1F2937',     // สีเทาเข้ม
+            darker: '#111827',   // สีเทาเข้มมาก
+          },
+          fontFamily: {
+            prompt: ['line_seed_sans_th'],
+          },
+        }
+      }
+    }
+  </script>
+  <style>
+    body {
+      font-family: 'line_seed_sans_th';
+      background-color: #111827;  /* สีพื้นหลัง dark */
+      color: #F3F4F6;  /* สีข้อความหลัก */
+    }
+    
+    .cart-overlay {
+      position: fixed;
+      top: 0;
+      right: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.7);  /* เพิ่มความเข้มของ overlay */
+      z-index: 40;
+      visibility: hidden;
+      transition: all 0.3s ease;
+    }
+    
+    .transparentBcg {
+      visibility: visible;
+    }
+    
+    .cart {
+      position: fixed;
+      top: 0;
+      right: 0;
+      width: 100%;
+      max-width: 500px;
+      height: 100%;
+      overflow-y: auto;
+      z-index: 50;
+      background: #1F2937;  /* สีพื้นหลัง dark */
+      padding: 1.5rem;
+      transform: translateX(100%);
+      transition: transform 0.3s ease-in-out;
+      color: #F3F4F6;
+    }
+    
+    .showCart {
+      transform: translateX(0);
+    }
+    
+    .close-cart {
+      font-size: 1.7rem;
+      cursor: pointer;
+      color: #F3F4F6;
+    }
+    
+    .cart-item {
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      grid-column-gap: 1.5rem;
+      margin-bottom: 1.5rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid #374151;  /* สีเส้นแบ่ง dark */
+    }
+    
+    .cart-item img {
+      width: 75px;
+      height: 75px;
+      object-fit: contain;
+    }
+    
+    .cart-item h4 {
+      font-size: 0.85rem;
+      margin-bottom: 0.5rem;
+      color: #F3F4F6;
+    }
+    
+    .cart-item h5 {
+      font-size: 0.85rem;
+      margin-bottom: 0.5rem;
+      color: #D1D5DB;
+    }
+    
+    .item-amount {
+      text-align: center;
+      margin: 0.5rem;
+      color: #F3F4F6;
+    }
+    
+    .remove-item {
+      color: #34D399;  /* สีเขียวอ่อน */
+      cursor: pointer;
+      font-size: 0.8rem;
+    }
+    
+    .fa-chevron-up,
+    .fa-chevron-down {
+      color: #34D399;  /* สีเขียวอ่อน */
+      cursor: pointer;
+    }
+    
+    .cart-items {
+      position: absolute;
+      top: -8px;
+      right: -8px;
+      background: #059669;  /* สีเขียวเข้ม */
+      padding: 0 5px;
+      border-radius: 50%;
+      color: white;
+      font-size: 0.8rem;
+      font-weight: bold;
+    }
+    
+    .products-center {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 2rem;
+    }
+    
+    .product {
+      background: #1F2937;  /* สีพื้นหลัง dark */
+      border-radius: 0.5rem;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.3);  /* เพิ่มความเข้มของเงา */
+      transition: all 0.3s ease;
+      overflow: hidden;
+      padding: 1rem;
+      color: #F3F4F6;
+      border: 1px solid #374151;  /* เพิ่มเส้นขอบ */
+    }
+    
+    .product:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+      border-color: #10B981;  /* สีเขียวเมื่อ hover */
+    }
+    
+    .img-container {
+      position: relative;
+      overflow: hidden;
+      margin-bottom: 1rem;
+    }
+    
+    .product-img {
+      transition: all 0.3s ease;
+    }
+    
+    .bag-btn {
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      background: #10B981;  /* สีเขียว */
+      color: white;
+      border: none;
+      padding: 0.5rem 0.75rem;
+      border-radius: 0.5rem 0 0 0;
+      transform: translateX(101%);
+      transition: all 0.3s ease;
+      cursor: pointer;
+      font-size: 0.85rem;
+    }
+    
+    .img-container:hover .bag-btn {
+      transform: translateX(0);
+    }
+    
+    .bag-btn:hover {
+      background: #059669;  /* สีเขียวเข้ม */
+    }
+    
+    .bag-btn:disabled {
+      background: #4B5563;  /* สีเทา */
+      cursor: not-allowed;
+    }
+    
+    .announcement-banner {
+      background: linear-gradient(90deg, #065F46 0%, #047857 100%);  /* โทนสีเขียว */
+      overflow: hidden;
+    }
+    
+    .announcement-text {
+      animation: scroll 20s linear infinite;
+      white-space: nowrap;
+    }
+    
+    @keyframes scroll {
+      0% { transform: translateX(100%); }
+      100% { transform: translateX(-100%); }
+    }
+    
+    .hero-glow {
+      position: relative;
+    }
+    
+    .hero-glow::before {
+      content: '';
+      position: absolute;
+      top: -2px;
+      left: -2px;
+      right: -2px;
+      bottom: -2px;
+      background: linear-gradient(45deg, #065F46, #10B981, #34D399);  /* โทนสีเขียว */
+      z-index: -1;
+      border-radius: 0.5rem;
+      animation: glowing 3s ease-in-out infinite alternate;
+      opacity: 0.7;
+    }
+    
+    @keyframes glowing {
+      0% { opacity: 0.5; filter: blur(10px); }
+      100% { opacity: 0.7; filter: blur(15px); }
+    }
+    
+    /* ปรับสีสำหรับส่วนอื่นๆ */
+    nav {
+      background-color: #1F2937 !important;  /* สี dark */
+      border-bottom: 1px solid #374151;
+    }
+    
+    .bg-white {
+      background-color: #1F2937 !important;  /* สี dark */
+    }
+    
+    .text-dark {
+      color: #F3F4F6 !important;  /* สีข้อความสว่าง */
+    }
+    
+    .bg-gray-50 {
+      background-color: #1F2937 !important;  /* สี dark */
+    }
+    
+    .text-gray-600 {
+      color: #D1D5DB !important;  /* สีเทาอ่อน */
+    }
+    
+    .border-gray-200 {
+      border-color: #374151 !important;  /* สีเส้นแบ่ง dark */
+    }
+    
+    .bg-gray-100 {
+      background-color: #374151 !important;  /* สี dark */
+    }
+    
+    .border-primary {
+      border-color: #10B981 !important;  /* สีเขียว */
+    }
+    
+    .hover\:bg-gray-50:hover {
+      background-color: #374151 !important;  /* สี dark */
+    }
+    
+    .shadow-sm {
+      box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.3) !important;
+    }
+    
+    .hover\:shadow-md:hover {
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 2px 4px -1px rgba(0, 0, 0, 0.2) !important;
+    }
+    
+    .bg-gradient-to-br {
+      background-image: linear-gradient(to bottom right, #111827, #1F2937) !important;  /* โทนสี dark */
+    }
+    
+    footer {
+      background-color: #111827 !important;  /* สี dark */
+      border-top: 1px solid #374151;
+    }
+    
+    .border-gray-800 {
+      border-color: #374151 !important;
+    }
+    
+    .bg-yellow-100 {
+      background-color: #374151 !important;
+    }
+    
+    .bg-blue-100 {
+      background-color: #374151 !important;
+    }
+    
+    .bg-green-100 {
+      background-color: #374151 !important;
+    }
+    
+    .bg-purple-100 {
+      background-color: #374151 !important;
+    }
+    
+      .img-container {
+    position: relative;
+    overflow: hidden;
+    margin-bottom: 1rem;
+    aspect-ratio: 3/2; /* อัตราส่วนแนวนอน 3:2 */
+  }
+
+  .product-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border: 1px solid #374151;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    transition: all 0.3s ease;
+    border-radius: 0.5rem; /* เพิ่มความโค้งมุม */
+  }
+
+  /* ปรับขนาดรูปภาพในตะกร้าสินค้าให้เป็นแนวนอน */
+  .cart-item img {
+    width: 120px;
+    height: 80px;
+    object-fit: cover;
+    border-radius: 0.25rem;
+  }
+
+  </style>
+</head>
+<body class="font-prompt bg-darker text-gray-200">
+  
+  <nav class="bg-darker shadow-md sticky top-0 z-30">
+    <div class="container mx-auto px-4 py-3">
+      <div class="flex items-center justify-between">
+        <div class="flex items-center space-x-3">
+          <img src="https://lh3.googleusercontent.com/d/1Ck_OCfEW4dEp3A1k9yfQplYmW7qmwzFF" alt="BOTSTICKERLTH logo" class="w-12 h-12 rounded-full shadow-sm border-2 border-primary" id="profileurl">
+          <h1 class="text-2xl font-bold text-primary tracking-tight">♥️ Expert Advisor Center</h1>
+        </div>
+        
+        <div class="flex items-center space-x-4">
+          <a href="#products" class="hidden md:block text-gray-300 hover:text-primary transition-colors">สินค้า</a>
+          <a href="#about" class="hidden md:block text-gray-300 hover:text-primary transition-colors">เกี่ยวกับเรา</a>
+          
+          <div class="cart-btn relative cursor-pointer">
+            <span class="nav-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-7 h-7 text-primary hover:text-accent transition-colors">
+                <path d="M2.25 2.25a.75.75 0 000 1.5h1.386c.17 0 .318.114.362.278l2.558 9.592a3.752 3.752 0 00-2.806 3.63c0 .414.336.75.75.75h15.75a.75.75 0 000-1.5H5.378A2.25 2.25 0 017.5 15h11.218a.75.75 0 00.674-.421 60.358 60.358 0 002.96-7.228.75.75 0 00-.525-.965A60.864 60.864 0 005.68 4.509l-.232-.867A1.875 1.875 0 003.636 2.25H2.25zM3.75 20.25a1.5 1.5 0 113 0 1.5 1.5 0 01-3 0zM16.5 20.25a1.5 1.5 0 113 0 1.5 1.5 0 01-3 0z" />
+              </svg>
+            </span>
+            <div class="cart-items">0</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  
+  <div class="announcement-banner py-2 text-white">
+    <div class="announcement-text px-4">
+      คุณ <span class="font-bold text-white" id="displaynamefield"></span> เลือกสินค้าและบริการต่างๆได้เลย 📌 กรุณาเลือกซื้อสินค้าและชำระทีละ 1 รายการ | หากชำระเรียบร้อยแลลิงค์ดาวโหลดยังไม่ปรากฎโปรดติดต่อ Support
+    </div>
+  </div>
+
+  
+  <div class="bg-gradient-to-br from-darker to-gray-800 py-12">
+    <div class="container mx-auto px-4">
+      <div class="flex flex-col md:flex-row items-center justify-between gap-8">
+        <div class="md:w-1/2">
+          <h2 class="text-4xl md:text-5xl font-bold text-gray-100 mb-4">Expert<span class="text-primary"> เรื่องเทรด</span></h2>
+          <p class="text-gray-300 mb-6 text-lg">Expert Advisor หรือ EA เราบริการเช่าซื้อแหล่งรวม EA สำหรับเทรด ไม่ว่าจะเป็นคู่เงิน หรือทองคำ Dashboard พร้อมให้บริการ</p>
+          <div class="flex flex-wrap gap-4">
+            <a href="#products" class="px-6 py-3 bg-primary text-white font-medium rounded-lg hover:bg-secondary transition-colors shadow-lg shadow-primary/30">
+              เลือกซื้อเลย
+            </a>
+            <a href="https://lin.ee/MQqnvKj" target="_blank" class="px-6 py-3 bg-gray-800 text-primary border border-primary font-medium rounded-lg hover:bg-gray-700 transition-colors">
+              ติดต่อ Support
+            </a>
+          </div>
+        </div>        
+      </div>
+    </div>
+  </div>
+
+ 
+  <div id="about" class="py-16 bg-gray-800">
+    <div class="container mx-auto px-4">
+      <div class="max-w-3xl mx-auto text-center mb-12">
+        <h2 class="text-3xl font-bold text-gray-100 mb-4">เกี่ยวกับ <span class="text-primary">Expert Advisor</span></h2>
+        <div class="h-1 w-24 bg-primary mx-auto mb-6 rounded-full"></div>
+        <p class="text-gray-300">
+          เครื่องมือที่ช่วยในการเทรด ที่มีหลากหลาย Statistics ที่ใช้งานได้จริง พร้อมให้บริการอย่างครบเครื่อง
+        </p>
+      </div>
+      
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div class="bg-gray-700 p-6 rounded-lg shadow-sm hover:shadow-md transition-shadow">
+          <div class="w-16 h-16 bg-green-900/20 rounded-full flex items-center justify-center mb-4 mx-auto">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-8 h-8 text-green-400">
+              <path fill-rule="evenodd" d="M12.516 2.17a.75.75 0 00-1.032 0 11.209 11.209 0 01-7.877 3.08.75.75 0 00-.722.515A12.74 12.74 0 002.25 9.75c0 5.942 4.064 10.933 9.563 12.348a.75.75 0 00.374 0c5.499-1.415 9.563-6.406 9.563-12.348 0-1.39-.223-2.73-.635-3.985a.75.75 0 00-.722-.516l-.143.001c-2.996 0-5.717-1.17-7.734-3.08zm3.094 8.016a.75.75 0 10-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 00-1.06 1.06l2.25 2.25a.75.75 0 001.14-.094l3.75-5.25z" clip-rule="evenodd" />
+            </svg>
+          </div>
+          <h3 class="text-xl font-semibold text-center mb-2 text-gray-100">ได้รับการทดสอบและใช้งาน</h3>
+          <p class="text-gray-300 text-center">เราเป็นผู้ให้บริการด้าน Expert Advisor โดยมีความชำนาญ</p>
+        </div>
+        
+        <div class="bg-gray-700 p-6 rounded-lg shadow-sm hover:shadow-md transition-shadow">
+          <div class="w-16 h-16 bg-primary/20 rounded-full flex items-center justify-center mb-4 mx-auto">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-8 h-8 text-primary">
+              <path fill-rule="evenodd" d="M7.5 6v.75H5.513c-.96 0-1.764.724-1.865 1.679l-1.263 12A1.875 1.875 0 004.25 22.5h15.5a1.875 1.875 0 001.865-2.071l-1.263-12a1.875 1.875 0 00-1.865-1.679H16.5V6a4.5 4.5 0 10-9 0zM12 3a3 3 0 00-3 3v.75h6V6a3 3 0 00-3-3zm-3 8.25a3 3 0 106 0v-.75a.75.75 0 011.5 0v.75a4.5 4.5 0 11-9 0v-.75a.75.75 0 011.5 0v.75z" clip-rule="evenodd" />
+            </svg>
+          </div>
+          <h3 class="text-xl font-semibold text-center mb-2 text-gray-100">ราคาเป็นมิตร</h3>
+          <p class="text-gray-300 text-center">ราคาไม่แพง และมีคุณภาพ</p>
+        </div>
+        
+        <div class="bg-gray-700 p-6 rounded-lg shadow-sm hover:shadow-md transition-shadow">
+          <div class="w-16 h-16 bg-blue-900/20 rounded-full flex items-center justify-center mb-4 mx-auto">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-8 h-8 text-blue-400">
+              <path fill-rule="evenodd" d="M4.848 2.771A49.144 49.144 0 0112 2.25c2.43 0 4.817.178 7.152.52 1.978.292 3.348 2.024 3.348 3.97v6.02c0 1.946-1.37 3.678-3.348 3.97a48.901 48.901 0 01-3.476.383.39.39 0 00-.297.17l-2.755 4.133a.75.75 0 01-1.248 0l-2.755-4.133a.39.39 0 00-.297-.17 48.9 48.9 0 01-3.476-.383c-1.978-.292-3.348-2.024-3.348-3.97V6.741c0-1.946 1.37-3.68 3.348-3.97zM6.75 8.25a.75.75 0 01.75-.75h9a.75.75 0 010 1.5h-9a.75.75 0 01-.75-.75zm.75 2.25a.75.75 0 000 1.5H12a.75.75 0 000-1.5H7.5z" clip-rule="evenodd" />
+            </svg>
+          </div>
+          <h3 class="text-xl font-semibold text-center mb-2 text-gray-100">บริการลูกค้า</h3>
+          <p class="text-gray-300 text-center">ทีมงานของเราพร้อมให้บริการและตอบคำถามตลอด 24 ชั่วโมง เพื่อประสบการณ์ที่ดีที่สุด</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Products -->
+  <div id="products" class="py-16 bg-gray-900">
+    <div class="container mx-auto px-4">
+      <div class="text-center mb-12">
+        <h2 class="text-3xl font-bold text-gray-100 mb-4">Expert Advisor <span class="text-primary">ยอดนิยม</span></h2>
+        <div class="h-1 w-24 bg-primary mx-auto mb-6 rounded-full"></div>
+        <p class="text-gray-300 max-w-2xl mx-auto">เลือก EA ในแบบที่คุณชื่นชอบจากคอลเลกชันที่หลากหลายของเรา หลากหลายเทคนิคในการเทรด สามารถใช้งานได้ 1 บัญชีจริง 1 บัญชี Demo</p>
+      </div>
+      
+      <div class="products-center">
+        <!-- ข้อมูลอัพโหลด -->
+      </div>
+    </div>
+  </div>
+
+  
+  <footer class="bg-darker text-gray-300 py-12">
+    <div class="container mx-auto px-4">
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+        <div>
+          <div class="flex items-center space-x-3 mb-4">
+            <img src="https://lh3.googleusercontent.com/d/1YRr2z9nGZjZPCz2xUhvUrPXQrEGsd6vr" alt="BOTSTICKERLTH logo" class="w-10 h-10 rounded-full">
+            <h3 class="text-xl font-bold text-primary">♥️ Expert Advisor Center</h3>
+          </div>
+          <p class="text-gray-400">
+            ศูนย์กลางจำหน่ายเครื่องมือ ระบบเทรดอัตโนมัติ หลากหลายเทคนิคที่ถูกคัดสรรค์มาเป็นอย่างดีพร้อมให้บริการ
+        
+        <div>
+          <h3 class="text-lg font-semibold mb-4 text-gray-100">กลับสู่เมนูต่างๆ</h3>
+          <ul class="space-y-2">
+            <li><a href="#" class="text-gray-400 hover:text-primary transition-colors">หน้าหลัก</a></li>
+            <li><a href="#products" class="text-gray-400 hover:text-primary transition-colors">สินค้า</a></li>
+            <li><a href="#about" class="text-gray-400 hover:text-primary transition-colors">เกี่ยวกับเรา</a></li>
+            
+          </ul>
+        </div>
+        
+        
+        
+        
+      </div>
+      
+      <div class="border-t border-gray-800 mt-8 pt-8 text-center">
+        <p class="text-gray-400">©preciousmetalspro
+</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- โซนตะกร้า -->
+  <div class="cart-overlay">
+    <div class="cart">
+      <div class="flex justify-between items-center mb-6">
+        <h2 class="text-2xl font-bold text-primary">ตะกร้าของคุณ </h2>
+        <p class="text-red-400">กรุณาสั่งทีละ 1 รายการ</p>
+        <button class="close-cart text-gray-400 hover:text-gray-200">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
+            <path fill-rule="evenodd" d="M5.47 5.47a.75.75 0 011.06 0L12 10.94l5.47-5.47a.75.75 0 111.06 1.06L13.06 12l5.47 5.47a.75.75 0 11-1.06 1.06L12 13.06l-5.47 5.47a.75.75 0 01-1.06-1.06L10.94 12 5.47 6.53a.75.75 0 010-1.06z" clip-rule="evenodd" />
+          </svg>
+        </button>
+      </div>
+      
+      <div class="cart-content">
+        <!-- ข้อมูลเข้าตะกร้า -->
+      </div>
+      
+      <div class="cart-footer mt-8 pt-4 border-t border-gray-600">
+        <div class="flex justify-between items-center mb-4">
+          <h4 class="text-xl font-bold text-gray-100">ยอดรวม:</h4>
+          <span class="cart-total text-xl font-bold text-primary">0</span>
+          <span class="text-xl font-bold text-gray-100"> บาท</span>
+        </div>
+        
+        <div class="space-y-3">
+          <button type="button" id="send-to-line-btn" class="w-full py-3 bg-primary text-white font-medium rounded-lg hover:bg-secondary transition-colors shadow-lg shadow-primary/30 flex items-center justify-center">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5 mr-2">
+              <path fill-rule="evenodd" d="M7.5 6v.75H5.513c-.96 0-1.764.724-1.865 1.679l-1.263 12A1.875 1.875 0 004.25 22.5h15.5a1.875 1.875 0 001.865-2.071l-1.263-12a1.875 1.875 0 00-1.865-1.679H16.5V6a4.5 4.5 0 10-9 0zM12 3a3 3 0 00-3 3v.75h6V6a3 3 0 00-3-3zm-3 8.25a3 3 0 106 0v-.75a.75.75 0 011.5 0v.75a4.5 4.5 0 11-9 0v-.75a.75.75 0 011.5 0v.75z" clip-rule="evenodd" />
+            </svg>
+            สั่งซื้อรายการทั้งหมด
+          </button>
+          
+          <button type="button" class="clear-cart w-full py-3 bg-gray-700 text-primary border border-primary font-medium rounded-lg hover:bg-gray-600 transition-colors flex items-center justify-center">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5 mr-2">
+              <path fill-rule="evenodd" d="M16.5 4.478v.227a48.816 48.816 0 013.878.512.75.75 0 11-.256 1.478l-.209-.035-1.005 13.07a3 3 0 01-2.991 2.77H8.084a3 3 0 01-2.991-2.77L4.087 6.66l-.209.035a.75.75 0 01-.256-1.478A48.567 48.567 0 017.5 4.705v-.227c0-1.564 1.213-2.9 2.816-2.951a52.662 52.662 0 013.369 0c1.603.051 2.815 1.387 2.815 2.951zm-6.136-1.452a51.196 51.196 0 013.273 0C14.39 3.05 15 3.684 15 4.478v.113a49.488 49.488 0 00-6 0v-.113c0-.794.609-1.428 1.364-1.452zm-.355 5.945a.75.75 0 10-1.5.058l.347 9a.75.75 0 101.499-.058l-.346-9zm5.48.058a.75.75 0 10-1.498-.058l-.347 9a.75.75 0 001.5.058l.345-9z" clip-rule="evenodd" />
+            </svg>
+            ล้างตะกร้า
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="loading-overlay"
+    class="fixed inset-0 bg-gray-900 bg-opacity-90 z-50 flex items-center justify-center hidden">
+    <img
+      src="https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExOHVpNjNleDQ2MTI0aTZwY3NzcmJvdGlqdnlueWR3YjQyaWJrMDFqZyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9dHM/NEvzHap79FP0b2Of2j/giphy.gif"
+      alt="Loading..." class="w-screen h-auto">
+  </div>
+
+  <script>
+    
+    const cartBtn = document.querySelector('.cart-btn');
+    const closeCartBtn = document.querySelector('.close-cart');
+    const clearCartBtn = document.querySelector('.clear-cart');
+    const cartDOM = document.querySelector('.cart');
+    const cartOverlay = document.querySelector('.cart-overlay');
+    const cartItems = document.querySelector('.cart-items');
+    const cartTotal = document.querySelector('.cart-total');
+    const cartContent = document.querySelector('.cart-content');
+    const productsDOM = document.querySelector('.products-center');
+    const sendToLineBtn = document.getElementById('send-to-line-btn');
+    
+    let cart = [];
+    
+    class Products {
+      async getProducts() {
+        try {
+          let result = await fetch("https://opensheet.elk.sh/1Qf9ycMkcbXBcMq5XZ-zrmP9az4zs45UQtWjqPrFc_KM/product");
+          let data = await result.json();
+          let products = data;
+          products = products.map((item) => {
+            const title = item.title;
+            const price = item.price;
+            const id = item.id;
+            const image = item.picture;
+            return { title, price, id, image };
+          });
+          console.log(products);
+          return products;
+        } catch (error) {
+          console.log(error);
+        }
+      }
+    }
+    
+    
+    class UI {
+      displayProducts(products) {
+        let result = "";
+        products.forEach((product) => {
+          const viewbaht = parseInt(product.price).toLocaleString('th-TH', {currency: 'THB'});
+          result += `
+            <article class="product">
+              <div class="img-container">
+                <center><img src=${product.image} alt="${product.title}" class="product-img" width="200px" /></center>
+                <button class="bag-btn" data-id=${product.id}>
+                  <i class="fas fa-shopping-cart"></i> เพิ่มลงตะกร้า
+                </button>
+              </div>
+              <h3 class="text-lg font-semibold mt-3 mb-1 text-gray-100">${product.title}</h3>
+              <h4 class="text-xl font-bold text-primary">ราคา <b>${viewbaht}</b> บาท</h4>
+            </article>
+          `;
+        });
+        productsDOM.innerHTML = result;
+      }
+      
+      getBagButtons() {
+        const buttons = [...document.querySelectorAll(".bag-btn")];
+        buttons.forEach((button) => {
+          let id = button.dataset.id;
+          let inCart = cart.find((item) => item.id === id);
+          if (inCart) {
+            button.innerText = "อยู่ในตะกร้าแล้ว";
+            button.disabled = true;
+          } else {
+            button.addEventListener("click", (event) => {
+              event.target.innerText = "อยู่ในตะกร้าแล้ว";
+              event.target.disabled = true;
+              
+              let cartItem = { ...Storage.getProduct(id), amount: 1 };
+              cart = [...cart, cartItem];
+              Storage.saveCart(cart);
+              
+              this.setCartValues(cart);
+              this.addCartItem(cartItem);
+              this.showCart();
+            });
+          }
+        });
+      }
+      
+      setCartValues(cart) {
+        let tempTotal = 0;
+        let itemsTotal = 0;
+        cart.map((item) => {
+          tempTotal += item.price * item.amount;
+          itemsTotal += item.amount;
+        });
+        cartTotal.innerText = parseInt(tempTotal).toLocaleString('th-TH', {currency: 'THB'});
+        cartItems.innerText = itemsTotal;
+      }
+      
+      addCartItem(item) {
+        const div = document.createElement("div");
+        const viewbaht = parseInt(item.price).toLocaleString('th-TH', {currency: 'THB'});
+        div.classList.add("cart-item");
+        div.innerHTML = `
+          <img src=${item.image} alt="product" />
+          <div>
+            <h4>${item.title}</h4>
+            <h5>ราคา <b>${viewbaht}</b> บาท</h5>
+            <span class="remove-item" data-id=${item.id}>ลบรายการนี้</span>
+          </div>
+          <div>
+            <i class="fas fa-chevron-up" data-id=${item.id}></i>
+            <p class="item-amount">${item.amount}</p>
+            <i class="fas fa-chevron-down" data-id=${item.id}></i>
+          </div>
+        `;
+        cartContent.appendChild(div);
+      }
+      
+      showCart() {
+        cartOverlay.classList.add("transparentBcg");
+        cartDOM.classList.add("showCart");
+      }
+      
+      setupAPP() {
+        cart = Storage.getCart();
+        this.setCartValues(cart);
+        this.populateCart(cart);
+        cartBtn.addEventListener("click", this.showCart);
+        closeCartBtn.addEventListener("click", this.hideCart);
+      }
+      
+      populateCart(cart) {
+        cart.forEach((item) => this.addCartItem(item));
+      }
+      
+      hideCart() {
+        cartOverlay.classList.remove("transparentBcg");
+        cartDOM.classList.remove("showCart");
+      }
+      
+      cartLogic() {
+        
+        clearCartBtn.addEventListener("click", () => {
+          Swal.fire({
+            title: 'ยืนยัน',
+            text: "คุณต้องการล้างตะกร้าใช่หรือไม่?",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#10B981',
+            cancelButtonColor: '#6C5CE7',
+            confirmButtonText: 'ใช่, ล้างตะกร้า',
+            cancelButtonText: 'ยกเลิก'
+          }).then((result) => {
+            if (result.isConfirmed) {
+              this.clearCart();
+              Swal.fire(
+                'สำเร็จ!',
+                'ล้างตะกร้าเรียบร้อยแล้ว',
+                'success'
+              );
+            }
+          });
+        });
+        
+        
+        sendToLineBtn.addEventListener("click", () => {
+          if (cart.length === 0) {
+            Swal.fire({
+              title: 'ตะกร้าว่าง',
+              text: 'กรุณาเลือกสินค้าก่อนทำการสั่งซื้อ',
+              icon: 'info',
+              confirmButtonColor: '#10B981'
+            });
+            return;
+          }
+          
+          if (liff.isLoggedIn()) {
+
+            Swal.fire({
+               title: 'คุณแน่ใจ?',
+            text: "คุณต้องการสั่งซื้อใช่มั้ย!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#10B981',
+            cancelButtonColor: '#EF4444',
+            confirmButtonText: 'ใช่ ต้องการสั่งซื้อ',
+            cancelButtonText: 'ยกเลิก'
+            }).then((result) => {
+              if (result.isConfirmed) {
+               $('#loading-overlay').removeClass('hidden');
+              event.preventDefault();
+
+              const formData = $(this).serialize();
+              const cartData = cart.map(item => encodeURI(`👉 ${item.title} x ${item.amount}`));
+              const cartTotal = cart.reduce((total, items) => total + (items.price * items.amount), 0);
+              const nameline = encodeURI(liff.getDecodedIDToken().name);
+              const viewbaht = parseInt(cartTotal).toLocaleString('th-TH', {currency: 'THB'});
+              const combinedData = `${formData}&userId=${liff.getDecodedIDToken().sub}&displayName=${nameline}&pictureUrl=${liff.getDecodedIDToken().picture}&email=${liff.getDecodedIDToken().email}&cart=${cartData.join('\n')}&total=${viewbaht}`;
+              
+              // ส่งข้อมูลไปยัง Google Sheet
+              $.post('https://script.google.com/macros/s/AKfycbyGQgvB2pg7Ecit_h8t0Jbaqx6kSfHL7LvIDBBNeyLl01pDsdgk_Y9tohpK-M1UAMbSGw/exec', combinedData).done((response) => {
+                
+                   if (response.statusCode === 200){
+                      $('#loading-overlay').addClass('hidden');
+                      Swal.fire(
+                          'สำเร็จ',
+                          'ดำเนินการเรียบร้อยแล้ว',
+                          'success'
+                        ).then(()=>{
+                      sendCartDataToLINE(cart)
+                      this.clearCart();
+                      this.hideCart();
+                      })
+                     
+                   }
+                  
+                
+                })
+                .fail((error) => {
+                  console.error('เกิดข้อผิดพลาดในการส่งข้อมูล:', error);
+                  
+                });
+            }
+            
+              
+            });
+          } else {
+            Swal.fire({
+              title: 'ไม่สามารถส่งข้อมูลได้',
+              text: 'กรุณาเข้าสู่ระบบ LINE ก่อนทำการสั่งซื้อ',
+              icon: 'error',
+              confirmButtonColor: '#10B981'
+            });
+          }
+        });
+        
+        
+        cartContent.addEventListener("click", (event) => {
+          if (event.target.classList.contains("remove-item")) {
+            let removeItem = event.target;
+            let id = removeItem.dataset.id;
+            cartContent.removeChild(removeItem.parentElement.parentElement);
+            this.removeItem(id);
+          } else if (event.target.classList.contains("fa-chevron-up")) {
+            let addAmount = event.target;
+            let id = addAmount.dataset.id;
+            let tempItem = cart.find((item) => item.id === id);
+            tempItem.amount = tempItem.amount + 1;
+            Storage.saveCart(cart);
+            this.setCartValues(cart);
+            addAmount.nextElementSibling.innerText = tempItem.amount;
+          } else if (event.target.classList.contains("fa-chevron-down")) {
+            let lowerAmount = event.target;
+            let id = lowerAmount.dataset.id;
+            let tempItem = cart.find((item) => item.id === id);
+            tempItem.amount = tempItem.amount - 1;
+            if (tempItem.amount > 0) {
+              Storage.saveCart(cart);
+              this.setCartValues(cart);
+              lowerAmount.previousElementSibling.innerText = tempItem.amount;
+            } else {
+              cartContent.removeChild(lowerAmount.parentElement.parentElement);
+              this.removeItem(id);
+            }
+          }
+        });
+      }
+      
+      clearCart() {
+        let cartItems = cart.map((item) => item.id);
+        cartItems.forEach((id) => this.removeItem(id));
+        while (cartContent.children.length > 0) {
+          cartContent.removeChild(cartContent.children[0]);
+        }
+        this.hideCart();
+      }
+      
+      removeItem(id) {
+        cart = cart.filter((item) => item.id !== id);
+        this.setCartValues(cart);
+        Storage.saveCart(cart);
+        let button = this.getSingleButton(id);
+        if (button) {
+          button.disabled = false;
+          button.innerHTML = `<i class="fas fa-shopping-cart"></i> เพิ่มลงตะกร้า`;
+        }
+      }
+      
+      getSingleButton(id) {
+        return [...document.querySelectorAll(".bag-btn")].find(
+          (button) => button.dataset.id === id
+        );
+      }
+    }
+    
+    
+    class Storage {
+      static saveProducts(products) {
+        localStorage.setItem("products", JSON.stringify(products));
+      }
+      
+      static getProduct(id) {
+        let products = JSON.parse(localStorage.getItem("products"));
+        return products.find((product) => product.id === id);
+      }
+      
+      static saveCart(cart) {
+        localStorage.setItem("cart", JSON.stringify(cart));
+      }
+      
+      static getCart() {
+        return localStorage.getItem("cart")
+          ? JSON.parse(localStorage.getItem("cart"))
+          : [];
+      }
+    }
+    
+    // LIFF Functions
+    function initializeLiff(liffId) {
+      liff.init({
+        liffId: liffId
+      }).then(() => {
+        if (liff.isLoggedIn()) {
+          liff.getProfile().then(profile => {
+            document.getElementById('displaynamefield').textContent = profile.displayName;
+            document.getElementById('profileurl').src = profile.pictureUrl || "https://lh3.googleusercontent.com/d/1Ck_OCfEW4dEp3A1k9yfQplYmW7qmwzFF";
+          }).catch(err => {
+            console.error("Error getting profile:", err);
+            document.getElementById('displaynamefield').textContent = "LINE User";
+          });
+        } else {
+          liff.login({ redirectUri: location.href });
+        }
+      }).catch(err => {
+        console.error("LIFF initialization failed:", err);
+        document.getElementById('displaynamefield').textContent = "LINE User";
+      });
+    }
+    
+    // สร้างฟังก์ชันเพื่อสร้างข้อมูลของสินค้าในตะกร้าของ Flex Message
+    function createCartData(cart) {
+      const cartData = cart.map(item => {
+        const viewbaht = parseInt(item.price * item.amount).toLocaleString('th-TH', {currency: 'THB'});
+        return {
+          type: "text",
+          text: `${item.id}: ${item.title} x ${item.amount} ราคา ${viewbaht} บาท`,
+          margin: "md",
+          color: "#ffffff",
+          wrap: true
+        };
+      });
+      return cartData;
+    }
+    
+    
+    function calculateTotalPrice(cart) {
+      return cart.reduce((total, item) => total + (item.price * item.amount), 0);
+    }
+    
+    
+    function sendCartDataToLINE(cart) {
+      const cartData = createCartData(cart);
+      const viewbaht = parseInt(calculateTotalPrice(cart)).toLocaleString('th-TH', {currency: 'THB'});
+      
+      liff.sendMessages([
+        {
+          "type": "flex",
+          "altText": `รวมทั้งหมด: ${viewbaht} บาท`,
+          "contents": {
+  "type": "bubble",
+  "hero": {
+    "type": "image",
+    "url": "https://i.pinimg.com/736x/9d/4e/95/9d4e959594ad47f491bbcbc1fc0c34ec.jpg",
+    "size": "full",
+    "aspectMode": "cover",
+    "aspectRatio": "16:7"
+  },
+  "body": {
+    "type": "box",
+    "layout": "vertical",
+    "contents": [
+      {
+        "type": "text",
+        "text": "รายการสินค้าในตะกร้า",
+        "color": "#ffffff",
+        "weight": "bold",
+        "size": "lg",
+        "align": "center",
+        "wrap": true
+      },
+      {
+        "type": "separator"
+      },
+      ...cartData,
+      {
+        "type": "separator",
+        "margin": "md"
+      },
+      {
+        "type": "text",
+        "text": " ",
+        "color": "#ffffff",
+        "size": "sm",
+        "wrap": true,
+        "align": "end",
+        "margin": "lg",
+        "contents": [
+          {
+            "type": "span",
+            "text": "รวมทั้งหมด"
+          },
+          {
+            "type": "span",
+            "text": ` ${viewbaht}`,
+            "weight": "bold",
+            "size": "xl",
+            "color": "#01ff01"
+          },
+          {
+            "type": "span",
+            "text": " บาท"
+          }
+        ]
+      },
+      {
+        "type": "text",
+        "text": "QR Code พร้อมเพย์",
+        "align": "center",
+        "color": "#969696",
+        "size": "xxs",
+        "margin": "md"
+      },
+      {
+        "type": "image",
+        "url": `https://promptpay.io/0909179965/${calculateTotalPrice(cart)}`,
+        "aspectRatio": "1:1",
+        "margin": "md",
+        "action": {
+          "type": "uri",
+          "label": "action",
+          "uri": `https://promptpay.io/0909179965/${calculateTotalPrice(cart)}`
+        }
+      }
+    ],
+    "backgroundColor": "#065F46"  /* สีเขียวเข้ม */
+  },
+  "footer": {
+    "type": "box",
+    "layout": "horizontal",
+    "spacing": "sm",
+    "contents": [
+      {
+        "type": "button",
+        "style": "secondary",
+        "height": "sm",
+        "action": {
+          "type": "uri",
+          "label": "เลขบัญชี",
+          "uri": "https://precious-metals-pro.glitch.me/product/bankacc.html"
+        },
+        "color": "#f7cf0a",
+        "flex": 1
+      },
+      {
+        "type": "button",
+        "action": {
+          "type": "uri",
+          "label": "ดูคิว",
+          "uri": "https://line.me/R/app/2006134287-x6564jpL?iduser=" + liff.getDecodedIDToken().sub
+        },
+        "height": "sm",
+        "style": "secondary",
+        "flex": 0,
+        "margin": "md"
+      }
+    ],
+    "flex": 0
+  },
+  "styles": {
+    "footer": {
+      "backgroundColor": "#065F46"  /* สีเขียวเข้ม */
+    }
+  }
+}
+        }
+      ]).then(() => {
+        console.log("ส่งข้อมูลในตะกร้าเรียบร้อย");
+      }).catch((error) => {
+        console.error("เกิดข้อผิดพลาดในการส่งข้อมูลในตะกร้า:", error);
+      });
+    }
+    
+    
+    document.addEventListener("DOMContentLoaded", () => {
+      const ui = new UI();
+      const products = new Products();
+      
+      
+      ui.setupAPP();
+      
+      // Initialize LIFF
+      initializeLiff("2006134287-DzlRXpnz");
+      
+      
+      
+      products
+        .getProducts()
+        .then((products) => {
+          ui.displayProducts(products);
+          Storage.saveProducts(products);
+        })
+        .then(() => {
+          ui.getBagButtons();
+          ui.cartLogic();
+        });
+    });
+  </script>
+</body>
+</html>
