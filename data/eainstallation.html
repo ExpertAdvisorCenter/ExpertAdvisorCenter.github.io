@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>♥️ Expert Advisor Center</title>
+     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+     <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.8.1/flowbite.min.css"  rel="stylesheet" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.8.1/flowbite.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.2/css/all.min.css"  rel="stylesheet" />
+
+    <script src="https://cdn.tailwindcss.com?plugins=forms,typography,aspect-ratio,line-clamp"></script>
+    <link rel="stylesheet" href="https://bit.ly/fontiton5" type="text/css" charset="utf-8" />
+    <style type="text/css">
+  body {
+    background-color: #111827;
+    font-family: 'line_seed_sans_th';
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    margin: 0;
+    color: #f3f4f6;
+}
+</style>
+  </head>
+  <body>
+    <div
+      class="min-h-screen w-screen bg-gradient-to-l to-green-900 from-gray-800 flex items-center"
+    >
+      <div
+        class="max-w-4xl w-full mx-auto bg-gray-800 flex flex-col md:flex-row gap-10 p-5 rounded-lg shadow-lg border border-gray-700"
+      >
+                  
+<div id="default-carousel" class="relative w-full" data-carousel="slide">
+    <!-- Carousel wrapper -->
+    <div class="relative h-56 overflow-hidden rounded-lg md:h-96">
+         <!-- รูป 1 -->
+        <div class="hidden duration-700 ease-in-out" data-carousel-item>
+            <img src="https://lh3.googleusercontent.com/d/1BoOj3D2JDZGmuJ3uFj3sTddkffFfrB_E" class="absolute block w-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" alt="...">
+        </div>
+        <!-- รูป 2 -->
+        <div class="hidden duration-700 ease-in-out" data-carousel-item>
+            <img src="https://lh3.googleusercontent.com/d/1RCTxXUyVPmu6A2JQp-V4C3uoFWOU4B9Z" class="absolute block w-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" alt="...">
+        </div>
+        <!-- รูป 3 -->
+        <div class="hidden duration-700 ease-in-out" data-carousel-item>
+            <img src="https://lh3.googleusercontent.com/d/1OqC-hRoXFD7KOJDTCmcYQAmEPHqWhufW" class="absolute block w-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" alt="...">
+        </div>
+        <!-- รูป 4 -->
+        <div class="hidden duration-700 ease-in-out" data-carousel-item>
+            <img src="https://lh3.googleusercontent.com/d/1j8CStMpc6nnUdEtthQ2rqECX9o-JXGE9" class="absolute block w-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" alt="...">
+        </div>
+        <!-- รูป 5 -->
+        <div class="hidden duration-700 ease-in-out" data-carousel-item>
+            <img src="https://lh3.googleusercontent.com/d/1wIXiRCMS5n0DFpOXh5yoUfOwBNZmB8T3" class="absolute block w-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" alt="...">
+        </div>
+    </div>
+    <!-- Slide image -->
+    <div class="absolute z-30 flex space-x-3 -translate-x-1/2 bottom-5 left-1/2">
+        <button type="button" class="w-3 h-3 rounded-full bg-green-500" aria-current="true" aria-label="Slide 1" data-carousel-slide-to="0"></button>
+        <button type="button" class="w-3 h-3 rounded-full bg-gray-500" aria-current="false" aria-label="Slide 2" data-carousel-slide-to="1"></button>
+        <button type="button" class="w-3 h-3 rounded-full bg-gray-500" aria-current="false" aria-label="Slide 3" data-carousel-slide-to="2"></button>
+        <button type="button" class="w-3 h-3 rounded-full bg-gray-500" aria-current="false" aria-label="Slide 4" data-carousel-slide-to="3"></button>
+        <button type="button" class="w-3 h-3 rounded-full bg-gray-500" aria-current="false" aria-label="Slide 5" data-carousel-slide-to="4"></button>
+    </div>
+    <!-- Slide controls -->
+    <button type="button" class="absolute top-0 left-0 z-30 flex items-center justify-center h-full px-4 cursor-pointer group focus:outline-none" data-carousel-prev>
+        <span class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-gray-700/30 group-hover:bg-gray-700/50 group-focus:ring-4 group-focus:ring-gray-700/70 group-focus:outline-none">
+            <svg class="w-4 h-4 text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewbox="0 0 6 10">
+                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 1 1 5l4 4"/>
+            </svg>
+            <span class="sr-only">Previous</span>
+        </span>
+    </button>
+    <button type="button" class="absolute top-0 right-0 z-30 flex items-center justify-center h-full px-4 cursor-pointer group focus:outline-none" data-carousel-next>
+        <span class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-gray-700/30 group-hover:bg-gray-700/50 group-focus:ring-4 group-focus:ring-gray-700/70 group-focus:outline-none">
+            <svg class="w-4 h-4 text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewbox="0 0 6 10">
+                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 9 4-4-4-4"/>
+            </svg>
+            <span class="sr-only">Next</span>
+        </span>
+    </button>
+</div>
+
+        <div class="w-full md:w-1/2">
+          <h1 class="text-2xl font-bold text-green-400">Expert Advisor Center Support</h1>
+          <p class="text-sm text-gray-400 pb-10">กรุณากรอกข้อมูลให้ครบถ้วนหากท่านต้องการให้แอดมินทำการช่วยติดตั้ง</p>
+
+          <form action="" class="flex flex-col gap-4">
+            <div>
+              <label for="name" class="text-gray-300 inline-block pb-2"
+                >Full Name</label
+              >
+              <input
+                class="w-full bg-gray-700 border border-gray-600 text-gray-200 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-green-500 rounded"
+                type="text"
+                name="fname"
+                     id="fname"
+                placeholder="กรอกชื่อและนามสกุล"
+              />
+            </div>
+
+            <div>
+              <label for="investamount" class="text-gray-300 inline-block pb-2"
+                >EA Name ที่ต้องการติดตั้ง</label>
+              <br /> 
+                         
+                  <select name="investamount" id="investamount" class="w-full bg-gray-700 border border-gray-600 text-gray-200 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-green-500 rounded" onchange="alert('You selected: ' + this.value)">
+    <option value="Wisdoms Allnew Download">Wisdoms Allnew</option>
+    <option value="QUANTUM Dashboard Download">QUANTUM Dashboard</option>
+    <option value="Wisdoms Rockstar V.1 Download">Wisdoms Rockstar V.1</option>
+    <option value="Wisdoms Rockstar V.2 Download">Wisdoms Rockstar V.2</option>
+                 </select>   
+                                                  
+            </div>
+
+            <div>
+              <label
+                class="text-gray-300 inline-block pb-2"
+                for="portnumber"
+                >Port Number</label
+              >
+              <input
+                class="w-full bg-gray-700 border border-gray-600 text-gray-200 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-green-500 rounded"
+                type="text"
+                name="portnumber"
+                     id="portnumber"
+                placeholder="Port Number"
+              />
+            </div>
+            
+            
+            <div>
+              <label
+                class="text-gray-300 inline-block pb-2"
+                for="portpass"
+                >Port Pass</label
+              >
+              <input
+                class="w-full bg-gray-700 border border-gray-600 text-gray-200 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-green-500 rounded"
+                type="text"
+                name="portpass"
+                     id="portpass"
+                placeholder="Port Password หากติดตั้งเองให้ใส่ - ด้วยค่ะ"
+              />
+            </div>
+            
+            <div>
+              <label
+                class="text-gray-300 inline-block pb-2"
+                for="vpsip"
+                >VPS IP</label
+              >
+              <input
+                class="w-full bg-gray-700 border border-gray-600 text-gray-200 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-green-500 rounded"
+                type="text"
+                name="vpsip"
+                     id="vpsip"
+                placeholder="IP:xx.xxx.xx:12308? หากติดตั้งเองให้ใส่ - ด้วยค่ะ"
+              />
+            </div>
+            
+            <div>
+              <label
+                class="text-gray-300 inline-block pb-2"
+                for="vpsuser"
+                >VPS User</label
+              >
+              <input
+                class="w-full bg-gray-700 border border-gray-600 text-gray-200 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-green-500 rounded"
+                type="text"
+                name="vpsuser"
+                     id="vpsuser"
+                placeholder="EX: administrator? หากติดตั้งเองให้ใส่ - ด้วยค่ะ"
+              />
+            </div>
+
+            <div>
+              <label
+                class="text-gray-300 inline-block pb-2"
+                for="vpspass"
+                >VPS Pass</label
+              >
+              <input
+                class="w-full bg-gray-700 border border-gray-600 text-gray-200 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-green-500 rounded"
+                type="text"
+                name="vpspass"
+                     id="vpspass"
+                placeholder="VPS password หากติดตั้งเองให้ใส่ - ด้วยค่ะ"
+              />
+            </div>
+           
+            <div>
+              <input
+                class="w-full bg-green-600 hover:bg-green-700 py-2 rounded-md text-white font-bold cursor-pointer transition-colors"
+                type="button"
+                id="submit"
+                value="ส่งแจ้งติดตั้ง"
+              />
+            </div>
+          </form>
+
+          <p class="text-center pt-5 text-gray-400">
+           ติดต่อฝ่ายบริการ
+            <a href="https://lin.ee/6w5wWV9X" class="text-green-400 font-bold hover:text-green-300">@085vyswo</a>
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div id="loading-overlay" class="fixed inset-0 bg-gray-900 bg-opacity-90 z-50 flex items-center justify-center hidden">
+      <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExODQwNjQ3Z2xvb3lrbGJjYWtxMzl5OTd2N3Zha3o1ajNncnpsMzM4dyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/XRILoySbALaSb1R0l6/giphy.gif" alt="Loading..." class="w-screen h-auto">
+  </div>
+
+<script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
+<script>
+     window.onload = function() {
+        const defaultLiffId = "2006134287-W6wRAeoD";
+        initializeLiff(defaultLiffId);
+    };
+
+    function initializeLiff(defaultLiffId) {
+        liff.init({
+            liffId: defaultLiffId,
+            withLoginOnExternalBrowser: true,
+        })
+        document.getElementById('submit').addEventListener('click', handleResult);
+       
+    }
+
+  function handleResult() {
+    var fname = document.getElementById('fname').value;
+    var investamount = document.getElementById('investamount').value;
+    var portnumber = document.getElementById('portnumber').value;
+    var portpass = document.getElementById('portpass').value;
+    var vpsip = document.getElementById('vpsip').value;
+    var vpsuser = document.getElementById('vpsuser').value;
+    var vpspass = document.getElementById('vpspass').value;
+
+    if (fname.trim() === '' || investamount.trim() === '' || portnumber.trim() === '' || portpass.trim() === '' || vpsip.trim() === '' || vpsuser.trim() === '' || vpspass.trim() === '') {
+        Swal.fire({
+          title: 'Error',
+          text: 'โปรดกรอกข้อมูลให้ครบทุกช่อง',
+          icon: 'error',
+          background: '#1f2937',
+          color: '#f3f4f6'
+        });
+        return;
+    }
+
+    liff.getProfile()
+        .then(profile => {
+            const name = profile.displayName;
+            const userId = profile.userId;
+            const picture = profile.pictureUrl;
+
+            // ส่งข้อมูลไปยัง Google Sheets (ฟังก์ชันเดิม)
+            sendToGoogleSheet(fname, investamount, portnumber, portpass, vpsip, vpsuser, vpspass, userId, name, picture);
+
+            // ส่งข้อความแจ้งเตือนไปยัง Telegram Bot (เพิ่มใหม่)
+            const message = `มีคำขอติดตั้ง EA ใหม่:\nชื่อ: ${fname}\nEA: ${investamount}\nPort Number: ${portnumber}\nPort Pass: ${portpass}\nVPS IP: ${vpsip}\nVPS User: ${vpsuser}\nVPS Pass: ${vpspass}`;
+            console.log("Preparing to send message to Telegram:", message); // ตรวจสอบข้อความ
+            sendToTelegramBot(message);
+        })
+        .catch(err => {
+            console.log("Error", err);
+        });
+}
+
+  
+     function sendToGoogleSheet(fname, investamount, portnumber, portpass, vpsip, vpsuser, vpspass, userId, name, picture) {
+        $('#loading-overlay').removeClass('hidden');
+        $.post('https://script.google.com/macros/s/AKfycbwtzoSJNrWxeODHvlrOjg-kR5OKNSwUYxvBiuXgOWUfGA0vqxaJzQqaaL1hrvOU9uUJ/exec', {
+            fname: fname,
+            investamount: investamount,
+            portnumber: portnumber,
+            portpass: portpass,
+            vpsip: vpsip,
+            vpsuser: vpsuser,
+            vpspass: vpspass,
+            userId: userId,
+            name: name,
+            picture: picture
+          })
+          .done(function (response) {
+            $('#loading-overlay').addClass('hidden');
+            if (response.statusCode === 200) {
+              const flexMessage = JSON.parse(response.body);
+              liff.sendMessages([flexMessage])
+                .then(function (res) {
+                  if (res) {
+                    Swal.fire({
+                      title: 'ดำเนินการสำเร็จ',
+                      text: 'คุณได้บันทึกเรียบร้อยแล้ว',
+                      icon: 'success',
+                      background: '#1f2937',
+                      color: '#f3f4f6'
+                    })
+                      .then(() => {
+                        liff.closeWindow();
+                      });
+                  } else {
+                    console.log("TargetPicker was closed!");
+                  }
+                })
+                .catch(function (error) {
+                  console.log("Something wrong happened");
+                });
+            }
+          })
+          .fail(function (error) {
+            Swal.fire({
+              title: 'Error',
+              text: 'มีข้อผิดพลาดในการบันทึกข้อมูล',
+              icon: 'error',
+              background: '#1f2937',
+              color: '#f3f4f6'
+            });
+          liff.closeWindow();
+          });
+      }
+  
+    // ฟังก์ชันส่งข้อความไปยัง Telegram Bot
+    function sendToTelegramBot(message) {
+        const botToken = '7666679556:AAEUixxGuykiQq-Zxk6Byk2nSj1GlUXUuwk'; // แทนที่ด้วย Token ของคุณ
+        const chatId = '855403385'; // แทนที่ด้วย Chat ID ของคุณ
+        const url = `https://api.telegram.org/bot${botToken}/sendMessage`;
+
+        $.post(url, {
+            chat_id: chatId,
+            text: message
+        })
+        .done(function(response) {
+            console.log("Message sent to Telegram:", response);
+        })
+        .fail(function(error) {
+            console.error("Error sending message to Telegram:", error);
+        });
+    }
+
+    </script>
+
+  </body>
+</html>
