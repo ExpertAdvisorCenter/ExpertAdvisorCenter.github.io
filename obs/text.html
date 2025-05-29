@@ -1,0 +1,42 @@
+data:text/html,<html>
+<style>
+  body {
+    background-color: rgba(0, 0, 0, 0);
+    margin: 0;
+    overflow: hidden;
+    font-family: 'Arial', sans-serif;
+  }
+  .scroller {
+    white-space: nowrap;
+    position: absolute;
+    color: rgb(49, 17, 231);
+    font-size: 24px;
+    text-shadow: 2px 2px 4px #000000;
+    line-height: 100%;
+  }
+</style>
+<body>
+  <div id="scroller" class="scroller"></div>
+  <script>
+    const text = "ข้อความที่คุณต้องการให้วิ่งที่นี่ | Customize text | สามารถแก้ไขได้ตามต้องการ";
+    const speed = 50; // ความเร็ว (ยิ่งน้อยยิ่งเร็ว)
+    const scroller = document.getElementById('scroller');
+    let position = -1000;
+    
+    scroller.textContent = text;
+    
+    function updateScroll() {
+      position--;
+      scroller.style.left = position + 'px';
+      
+      if (position < -scroller.offsetWidth) {
+        position = window.innerWidth;
+      }
+      requestAnimationFrame(updateScroll);
+    }
+    
+    // เริ่มการวิ่ง
+    updateScroll();
+  </script>
+</body>
+</html>
