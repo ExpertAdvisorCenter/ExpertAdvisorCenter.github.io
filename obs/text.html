@@ -1,15 +1,18 @@
 data:text/html,<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"> <!-- เพิ่มบรรทัดนี้ -->
+</head>
 <style>
   body {
     background-color: rgba(0, 0, 0, 0);
     margin: 0;
     overflow: hidden;
-    font-family: 'Arial', sans-serif;
+    font-family: 'Tahoma', 'Noto Sans Thai', 'Segoe UI', sans-serif; <!-- ใช้ฟอนต์ที่รองรับไทย -->
   }
   .scroller {
     white-space: nowrap;
     position: absolute;
-    color: rgb(49, 17, 231);
+    color: white;
     font-size: 24px;
     text-shadow: 2px 2px 4px #000000;
     line-height: 100%;
@@ -18,8 +21,8 @@ data:text/html,<html>
 <body>
   <div id="scroller" class="scroller"></div>
   <script>
-    const text = "ข้อความที่คุณต้องการให้วิ่งที่นี่ | Customize text | สามารถแก้ไขได้ตามต้องการ";
-    const speed = 50; // ความเร็ว (ยิ่งน้อยยิ่งเร็ว)
+    const text = "ข้อความภาษาไทยวิ่งได้แล้ว | สวัสดีครับ | ยินดีต้อนรับสู่สตรีม";
+    const speed = 50;
     const scroller = document.getElementById('scroller');
     let position = -1000;
     
@@ -35,7 +38,6 @@ data:text/html,<html>
       requestAnimationFrame(updateScroll);
     }
     
-    // เริ่มการวิ่ง
     updateScroll();
   </script>
 </body>
